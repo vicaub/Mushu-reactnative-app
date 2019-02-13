@@ -179,6 +179,9 @@ class ProductScreen extends Component {
     }
 
     _displayProductInfo() {
+        // TODO: add cfp info
+        // TODO: add recommandations
+        // TODO: add equivalent carbone
 
         const {product, isLoading, isConnected} = this.state;
 

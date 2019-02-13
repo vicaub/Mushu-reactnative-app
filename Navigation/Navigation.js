@@ -16,6 +16,7 @@ const DrawerNavigator = createDrawerNavigator(
             }
         },
         Search: {
+            // TODO: do we keep it?
             screen: SearchStackNavigator,
             navigationOptions: {
                 title: 'Recherche'
@@ -34,12 +35,14 @@ const DrawerNavigator = createDrawerNavigator(
             }
         },
         Stats: {
+            // TODO: change to ecological analysis
             screen: StatsStackNavigator,
             navigationOptions: {
                 title: 'Analyse diététique',
             }
         },
         Profile: {
+            // TODO: see what we keep/change?
             screen: ProfileStackNavigator,
             navigationOptions: {
                 title: 'Mon profil',

@@ -34,6 +34,7 @@ class BasketDetails extends Component {
     }
 
     render() {
+        // TODO: add cfp
         if (this.state.basketObject && this.state.basketObject.content.length > 0) {
             return (
                 <View style={styles.mainContainer}>

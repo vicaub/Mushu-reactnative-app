@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 class ProductItem extends Component {
     render() {
+        // TODO: add cfp
         const product = this.props.product;
         const cartCounter = this.props.cartCounter;
         return (
