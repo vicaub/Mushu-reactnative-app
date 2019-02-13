@@ -1,6 +1,10 @@
 # 2018 Mushu App Environnementale
 # React Native frontend
 
+Front for Mushu env app
+
+Forked from `https://github.com/vicaub/product-scanner`
+
 <p align="center"><img src="./assets/images/logo.png" alt="Home Screen" width="50"/></p>
 
 > Scan products in the supermarket and get to truly know your basket
