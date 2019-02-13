@@ -3,7 +3,7 @@ import DBConnector from '../Database/DBConnector';
 
 
 let productDB = DBConnector.objects('Product');
-
+// TODO: change db
 let ProductService = {
     
     findAll: () => {

@@ -16,7 +16,6 @@ const DrawerNavigator = createDrawerNavigator(
             }
         },
         Search: {
-            // TODO: do we keep it?
             screen: SearchStackNavigator,
             navigationOptions: {
                 title: 'Recherche'
@@ -34,13 +33,13 @@ const DrawerNavigator = createDrawerNavigator(
                 title: 'Mes paniers'
             }
         },
-        Stats: {
-            // TODO: change to ecological analysis
-            screen: StatsStackNavigator,
-            navigationOptions: {
-                title: 'Analyse diététique',
-            }
-        },
+        // Stats: {
+        //     // TODO: change to ecological analysis
+        //     screen: StatsStackNavigator,
+        //     navigationOptions: {
+        //         title: 'Analyse diététique',
+        //     }
+        // },
         Profile: {
             // TODO: see what we keep/change?
             screen: ProfileStackNavigator,

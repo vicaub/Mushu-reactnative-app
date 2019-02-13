@@ -112,13 +112,13 @@ class Profile extends Component {
                                 }
                             </Text>
                         </View>
-                        <View>
-                            <ActionButton
-                                title="Mes allergies"
-                                color="#00C378"
-                                onPress={() => this._handleAllergies()}
-                            />
-                        </View>
+                        {/*<View>*/}
+                            {/*<ActionButton*/}
+                                {/*title="Mes allergies"*/}
+                                {/*color="#00C378"*/}
+                                {/*onPress={() => this._handleAllergies()}*/}
+                            {/*/>*/}
+                        {/*</View>*/}
                     </View>
                 );
             } else {

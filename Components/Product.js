@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, ScrollView, Image, Alert} from 'react-native';
-import {getProductInfoFromApi, parseProductInfo} from '../API/OFFApi';
+import {getCFPFromBarcode} from '../API/mushuBackend';
 import OupsScreen from './Common/Oups';
 import Loader from './Common/Loader';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -12,19 +12,18 @@ import BasketService from '../Services/BasketService';
 import {todayTimeStamp} from '../Helper/basketHelper';
 
 
-
 class ProductScreen extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            product: undefined,
+            productInfo: undefined,
             isLoading: true,
             isConnected: true,
             fromHistory: this.props.navigation.getParam('fromHistory'),
             fromBasket: !!this.props.navigation.getParam('basketTimestamp'),
             basketTimestamp: this.props.navigation.getParam('basketTimestamp') ? this.props.navigation.getParam('basketTimestamp') : todayTimeStamp(),
-            hasCheckedAllergies: false,
+            // hasCheckedAllergies: false,
             quantityInBasket: 0,
             cartCounter: 1,
         };
@@ -33,29 +32,31 @@ class ProductScreen extends Component {
     componentDidMount() {
         const barcode = this.props.navigation.getParam('barcode');
         this.setState({quantityInBasket: BasketService.findProductQuantityInBasket(this.state.basketTimestamp, barcode)});
-        getProductInfoFromApi(barcode)
-            .then(rawJson => {
-                return parseProductInfo(rawJson, barcode)
-            })
+        getCFPFromBarcode(barcode)
             .then(data => {
+                console.log(data);
                 this.setState({
-                    product: data,
+                    productInfo: data,
                     isLoading: false
                 });
-                if (this.props.navigation.getParam('update') && Object.keys(this.state.product).length > 0) {
-                    let product = ProductService.findProduct(data, this.props.navigation.getParam('barcode'));
-                    ProductService.scan(product);
-                }
+                //TODO: save product in DB
+
+                // if (this.props.navigation.getParam('update') && Object.keys(this.state.productInfo).length > 0) {
+                //     let product = ProductService.findProduct(data, this.props.navigation.getParam('barcode'));
+                //     ProductService.scan(product);
+                // }
             })
-            .catch((error) =>
-                this.setState({isConnected: false, isLoading: false})
-            );
+            .catch((error) => {
+                    console.log(error)
+                    this.setState({isConnected: false, isLoading: false})
+                }
+            )
     }
 
     _displayLoading() {
         if (this.state.isLoading) {
             return (
-                <Loader />
+                <Loader/>
             );
         }
     }
@@ -64,45 +65,45 @@ class ProductScreen extends Component {
      * Input: string of ingredients with allergens
      * Output: JSX corresponding to the <Text> with allergens in bold
      */
-    static _parseIngredientWithAllergens(ingredientsWithAllergens) {
-        if (!ingredientsWithAllergens) {
-            return (<Text style={styles.defaultText}>Non renseigné</Text>)
-        } else {
-            const splitedIngredients = ingredientsWithAllergens.split(/<span class=\"allergen\">|<\/span>/);
-
-            return (
-                <Text style={styles.defaultText}>
-                    {splitedIngredients.map((value, index) => {
-                        if (index % 2 === 1) {
-                            return (
-                                <Text style={{fontWeight: 'bold'}} key={index}>{value}</Text>
-                            )
-                        } else {
-                            return (
-                                <Text key={index}>{value}</Text>
-                            )
-                        }
-                    })}
-                </Text>
-            )
-        }
-    }
+    // static _parseIngredientWithAllergens(ingredientsWithAllergens) {
+    //     if (!ingredientsWithAllergens) {
+    //         return (<Text style={styles.defaultText}>Non renseigné</Text>)
+    //     } else {
+    //         const splitedIngredients = ingredientsWithAllergens.split(/<span class=\"allergen\">|<\/span>/);
+    //
+    //         return (
+    //             <Text style={styles.defaultText}>
+    //                 {splitedIngredients.map((value, index) => {
+    //                     if (index % 2 === 1) {
+    //                         return (
+    //                             <Text style={{fontWeight: 'bold'}} key={index}>{value}</Text>
+    //                         )
+    //                     } else {
+    //                         return (
+    //                             <Text key={index}>{value}</Text>
+    //                         )
+    //                     }
+    //                 })}
+    //             </Text>
+    //         )
+    //     }
+    // }
 
     /**
      * Generate JSX for allergens
      */
-    static _parseAllergens(allergens) {
-        if (!allergens) {
-            return (<View></View>);
-        } else {
-            return (
-                <View>
-                    <Text style={styles.titleText}>Allergènes</Text>
-                    <Text style={styles.defaultText}>{allergens}</Text>
-                </View>
-            )
-        }
-    }
+    // static _parseAllergens(allergens) {
+    //     if (!allergens) {
+    //         return (<View></View>);
+    //     } else {
+    //         return (
+    //             <View>
+    //                 <Text style={styles.titleText}>Allergènes</Text>
+    //                 <Text style={styles.defaultText}>{allergens}</Text>
+    //             </View>
+    //         )
+    //     }
+    // }
 
     _addProductToCart() {
         BasketService.addProductToBasket(this.state.basketTimestamp, this.state.product, this.state.cartCounter);
@@ -183,44 +184,45 @@ class ProductScreen extends Component {
         // TODO: add recommandations
         // TODO: add equivalent carbone
 
-        const {product, isLoading, isConnected} = this.state;
+        const {productInfo, isLoading, isConnected} = this.state;
 
         if (!isLoading) {
-            if (product && Object.keys(product).length > 0) {
+            if (productInfo && Object.keys(productInfo).length > 0) {
                 return (
                     <ScrollView style={styles.scrollviewContainer}>
                         <View style={styles.headerContainer}>
                             <Image
                                 style={styles.imageProduct}
-                                source={product.image_url ? {uri: product.image_url} : require('../assets/images/No-images-placeholder.png')}
+                                source={productInfo.image_url ? {uri: productInfo.image_url} : require('../assets/images/No-images-placeholder.png')}
                             />
                             <View style={styles.headerDescription}>
                                 <Text
-                                    style={styles.productNameText}>{product.product_name ? product.product_name : "Nom inconnu"}</Text>
+                                    style={styles.productNameText}>{productInfo.name ? productInfo.name : "Nom inconnu"}</Text>
                                 <Text style={styles.defaultText}>Quantité
-                                    : {product.quantity ? product.quantity : "Non renseignée"}</Text>
-                                <Text style={styles.defaultText}>Marque
-                                    : {product.brands ? product.brands.split(",").map(m => m.trim()).join(", ") : "Non renseignée"}</Text>
-                                <Text style={styles.descriptionText}>Code barre : {product._id}</Text>
+                                    : {productInfo.quantity_string ? productInfo.quantity_string : "Non renseignée"}</Text>
+                                <Text style={styles.defaultText}>Empreinte carbonne : {productInfo.value}</Text>
+                                {/*TODO: print barcode*/}
+                                {/*<Text style={styles.descriptionText}>Code barre : {product._id}</Text>*/}
                             </View>
                         </View>
 
-                        <Text style={styles.titleText}>Catégories</Text>
+                        {/*<Text style={styles.titleText}>Catégories</Text>*/}
 
-                        <Text
-                            style={styles.defaultText}>{product.categories ? product.categories : "Non renseigné"}
-                        </Text>
+                        {/*<Text*/}
+                        {/*style={styles.defaultText}>{product.categories ? product.categories : "Non renseigné"}*/}
+                        {/*</Text>*/}
 
                         <Text style={styles.titleText}>Ingrédients</Text>
+                        <Text style={styles.defaultText}>{productInfo.ingredients}</Text>
 
-                        {ProductScreen._parseIngredientWithAllergens(product.ingredients)}
+                        {/*{ProductScreen._parseIngredientWithAllergens(product.ingredients)}*/}
 
-                        {ProductScreen._parseAllergens(product.allergens)}
+                        {/*{ProductScreen._parseAllergens(product.allergens)}*/}
 
-                        <Image
-                            style={styles.imageNutri}
-                            source={{uri: 'https://static.openfoodfacts.org/images/misc/nutriscore-' + product.nutrition_grades + '.png'}}
-                        />
+                        {/*<Image*/}
+                        {/*style={styles.imageNutri}*/}
+                        {/*source={{uri: 'https://static.openfoodfacts.org/images/misc/nutriscore-' + product.nutrition_grades + '.png'}}*/}
+                        {/*/>*/}
 
                         {this._printBasketOptions()}
 
@@ -238,36 +240,36 @@ class ProductScreen extends Component {
         }
     }
 
-    _checkAllergies() {
-        const {product, isLoading, fromHistory, fromBasket, hasCheckedAllergies} = this.state;
-        if (!isLoading && product && Object.keys(product).length > 0 && !hasCheckedAllergies && !fromHistory && !fromBasket) {
-            this.state.hasCheckedAllergies = true;
-            let user = UserService.findAll()[0];
-            if (user !== undefined && product.allergens_ids) {
-                let allergens = [];
-                for (let allergen of product.allergens_ids) {
-                    for (let user_allergen of Array.from(user.allergies)) {
-                        if (user_allergen.id === allergen) {
-                            allergens.push(user_allergen.name);
-                        }
-                    }
-                }
-                if (allergens.length !== 0) {
-                    Alert.alert(
-                        'Attention',
-                        'Nous avons détecté des ingrédients auquels vous êtes allergique dans ce produit : ' + allergens.join(', ')
-                    );
-                }
-            }
-        }
-    }
+    // _checkAllergies() {
+    //     const {product, isLoading, fromHistory, fromBasket, hasCheckedAllergies} = this.state;
+    //     if (!isLoading && product && Object.keys(product).length > 0 && !hasCheckedAllergies && !fromHistory && !fromBasket) {
+    //         this.state.hasCheckedAllergies = true;
+    //         let user = UserService.findAll()[0];
+    //         if (user !== undefined && product.allergens_ids) {
+    //             let allergens = [];
+    //             for (let allergen of product.allergens_ids) {
+    //                 for (let user_allergen of Array.from(user.allergies)) {
+    //                     if (user_allergen.id === allergen) {
+    //                         allergens.push(user_allergen.name);
+    //                     }
+    //                 }
+    //             }
+    //             if (allergens.length !== 0) {
+    //                 Alert.alert(
+    //                     'Attention',
+    //                     'Nous avons détecté des ingrédients auquels vous êtes allergique dans ce produit : ' + allergens.join(', ')
+    //                 );
+    //             }
+    //         }
+    //     }
+    // }
 
     render() {
         return (
             <View style={styles.mainContainer}>
                 {this._displayLoading()}
                 {this._displayProductInfo()}
-                {this._checkAllergies()}
+                {/*{this._checkAllergies()}*/}
             </View>
         )
     }

@@ -47,18 +47,18 @@ const ProfileStackNavigator = createStackNavigator({
             }
         })
     },
-    Allergies: {
-        screen: Allergies,
-        navigationOptions: () => ({
-            title: 'Mes allergies',
-            headerRight: <View></View>,
-            headerTitleStyle: headerStyle,
-            headerTintColor: mainColor,
-            headerStyle: {
-                backgroundColor: '#fff',
-            }
-        })
-    }
+    // Allergies: {
+    //     screen: Allergies,
+    //     navigationOptions: () => ({
+    //         title: 'Mes allergies',
+    //         headerRight: <View></View>,
+    //         headerTitleStyle: headerStyle,
+    //         headerTintColor: mainColor,
+    //         headerStyle: {
+    //             backgroundColor: '#fff',
+    //         }
+    //     })
+    // }
 });
 
 export default ProfileStackNavigator;

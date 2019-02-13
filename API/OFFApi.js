@@ -1,11 +1,10 @@
-import ProductService from "../Services/ProductService";
+// import ProductService from "../Services/ProductService";
+//
+// const lang = 'fr';
+// const apiUrl = 'https://' + lang + '.openfoodfacts.org';
 
-const lang = 'fr';
-const apiUrl = 'https://' + lang + '.openfoodfacts.org';
-
-
+/*
 export function getProductInfoFromApi(barcode) {
-    // TODO: use backend API
     const url = apiUrl + '/api/v0/product/' + barcode + '.json';
     return fetch(url)
         .then((response) => response.json())
@@ -13,7 +12,6 @@ export function getProductInfoFromApi(barcode) {
 }
 
 export function parseProductInfo(json, barcode) {
-    // TODO: not usefull anymore
     if (json.status !== 0 && json.code && json.code.length > 0) {
         let jsonProduct = json.product;
 
@@ -38,7 +36,6 @@ export function parseProductInfo(json, barcode) {
 }
 
 export function getAllergensFromApi() {
-    // TODO: Do we keep it?
     const url = apiUrl + '/allergens.json';
     return fetch(url)
         .then((response) => response.json())
@@ -63,3 +60,5 @@ export function getAllergensFromApi() {
         })
         .catch() //network fail is handled in call in Allergies.js
 }
+
+*/
