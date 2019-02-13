@@ -1,4 +1,5 @@
-# Product Scanner : NutriThink
+# 2018 Mushu App Environnementale
+# React Native frontend
 
 <p align="center"><img src="./assets/images/logo.png" alt="Home Screen" width="50"/></p>
 
