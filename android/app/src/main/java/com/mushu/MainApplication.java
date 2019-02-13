@@ -1,4 +1,4 @@
-package com.nutrithink;
+package com.mushu;
 
 import android.app.Application;
 
