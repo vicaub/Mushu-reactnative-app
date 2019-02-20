@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, ScrollView, Image, Alert} from 'react-native';
-import {getCFPFromBarcode} from '../API/mushuBackend';
+import {getCFPFromBarcode, getEquivFromCFP} from '../API/mushuBackend';
 import OupsScreen from './Common/Oups';
 import Loader from './Common/Loader';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -10,7 +10,7 @@ import UserService from '../Services/UserService'
 import ProductService from '../Services/ProductService';
 import BasketService from '../Services/BasketService';
 import {todayTimeStamp} from '../Helper/basketHelper';
-import { mainColor } from '../Navigation/HeaderStyle';
+import {mainColor} from '../Navigation/HeaderStyle';
 
 
 class ProductScreen extends Component {
@@ -19,6 +19,7 @@ class ProductScreen extends Component {
         super(props);
         this.state = {
             productInfo: undefined,
+            equivalent: undefined,
             isLoading: true,
             isConnected: true,
             fromHistory: this.props.navigation.getParam('fromHistory'),
@@ -38,7 +39,6 @@ class ProductScreen extends Component {
                 console.log(data);
                 this.setState({
                     productInfo: data,
-                    isLoading: false
                 });
                 //TODO: save product in DB
 
@@ -46,12 +46,25 @@ class ProductScreen extends Component {
                 //     let product = ProductService.findProduct(data, this.props.navigation.getParam('barcode'));
                 //     ProductService.scan(product);
                 // }
+                getEquivFromCFP(10).then((equiv) => {
+                    console.log(equiv);
+                    this.setState({
+                        equivalent: equiv,
+                        isLoading: false
+                    })
+                })
             })
             .catch((error) => {
-                    console.log(error)
+                    console.log(error);
                     this.setState({isConnected: false, isLoading: false})
                 }
-            )
+            );
+
+        // const cfpPromise = getCFPFromBarcode(barcode);
+        // const equivPromise = getEquivFromCFP(cfp);
+        // Promise.all([promise1, promise2, promise3]).then(function (values) {
+        //     console.log(values);
+        // });
     }
 
     _displayLoading() {
@@ -185,10 +198,10 @@ class ProductScreen extends Component {
         // TODO: add recommandations
         // TODO: add equivalent carbone
 
-        const {productInfo, isLoading, isConnected} = this.state;
+        const {productInfo, isLoading, isConnected, equivalent} = this.state;
 
         if (!isLoading) {
-            if (productInfo && Object.keys(productInfo).length > 0) {
+            if (productInfo && Object.keys(productInfo).length > 0 && equivalent) {
                 return (
                     <ScrollView style={styles.scrollviewContainer}>
                         <View style={styles.headerContainer}>
@@ -215,6 +228,10 @@ class ProductScreen extends Component {
 
                         <Text style={styles.titleText}>Ingrédients</Text>
                         <Text style={styles.defaultText}>{productInfo.ingredients}</Text>
+
+
+                        <Text style={styles.titleText}>Equivalent</Text>
+                        <Text style={styles.defaultText}>{JSON.stringify(equivalent)}</Text>
 
                         {/*{ProductScreen._parseIngredientWithAllergens(product.ingredients)}*/}
 
@@ -333,10 +350,10 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginRight: 5,
     },
-    cfpText:{
+    cfpText: {
         marginTop: 10,
         fontWeight: 'bold',
-        color:mainColor,
+        color: mainColor,
         fontSize: 18,
     },
     cartButton: {
