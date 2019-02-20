@@ -40,18 +40,20 @@ class ProductScreen extends Component {
                 this.setState({
                     productInfo: data,
                 });
-                //TODO: save product in DB
 
-                // if (this.props.navigation.getParam('update') && Object.keys(this.state.productInfo).length > 0) {
-                //     let product = ProductService.findProduct(data, this.props.navigation.getParam('barcode'));
-                //     ProductService.scan(product);
-                // }
+                // TODO: get reall cfp with quantity
                 getEquivFromCFP(10).then((equiv) => {
                     console.log(equiv);
                     this.setState({
                         equivalent: equiv,
                         isLoading: false
                     })
+                    //TODO: save product in DB
+
+                    // if (this.props.navigation.getParam('update') && Object.keys(this.state.productInfo).length > 0) {
+                    //     let product = ProductService.findProduct(data, this.props.navigation.getParam('barcode'));
+                    //     ProductService.scan(product);
+                    // }
                 })
             })
             .catch((error) => {
