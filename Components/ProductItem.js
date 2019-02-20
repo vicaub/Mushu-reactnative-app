@@ -36,16 +36,16 @@ class ProductItem extends Component {
     }
 }
 
-ProductItem.propTypes = {
-    product: PropTypes.shape({
-        imageUrl: PropTypes.string,
-        name: PropTypes.string.isRequired,
-        barCode: PropTypes.string.isRequired,
-        categories: PropTypes.objectOf(PropTypes.string),
-        nbScans: PropTypes.number.isRequired,
-    }).isRequired,
-    cartCounter: PropTypes.number,
-};
+// ProductItem.propTypes = {
+//     product: PropTypes.shape({
+//         imageUrl: PropTypes.string,
+//         name: PropTypes.string.isRequired,
+//         barCode: PropTypes.string.isRequired,
+//         categories: PropTypes.objectOf(PropTypes.string),
+//         nbScans: PropTypes.number.isRequired,
+//     }).isRequired,
+//     cartCounter: PropTypes.number,
+// };
 
 export default ProductItem;
 

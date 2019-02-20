@@ -38,9 +38,9 @@ class HistoryScreen extends Component {
                 <View style={styles.mainContainer}>
                     <FlatList
                         data= {this.state.products}
-                        keyExtractor={(item) => item.barCode}
+                        keyExtractor={(item) => item.barcode}
                         renderItem={({item}) => (
-                            <TouchableOpacity onPress={ () => this._searchInfo(parseInt(item.barCode))}>
+                            <TouchableOpacity onPress={ () => this._searchInfo(parseInt(item.barcode))}>
                                 <ProductItem product={item}/>
                             </TouchableOpacity>)}
                     />
