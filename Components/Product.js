@@ -10,6 +10,7 @@ import UserService from '../Services/UserService'
 import ProductService from '../Services/ProductService';
 import BasketService from '../Services/BasketService';
 import {todayTimeStamp} from '../Helper/basketHelper';
+import { mainColor } from '../Navigation/HeaderStyle';
 
 
 class ProductScreen extends Component {
@@ -200,7 +201,6 @@ class ProductScreen extends Component {
                                     style={styles.productNameText}>{productInfo.name ? productInfo.name : "Nom inconnu"}</Text>
                                 <Text style={styles.defaultText}>Quantité
                                     : {productInfo.quantity_string ? productInfo.quantity_string : "Non renseignée"}</Text>
-                                <Text style={styles.defaultText}>Empreinte carbonne : {productInfo.value}</Text>
                                 {/*TODO: print barcode*/}
                                 {/*<Text style={styles.descriptionText}>Code barre : {product._id}</Text>*/}
                             </View>
@@ -211,6 +211,7 @@ class ProductScreen extends Component {
                         {/*<Text*/}
                         {/*style={styles.defaultText}>{product.categories ? product.categories : "Non renseigné"}*/}
                         {/*</Text>*/}
+                        <Text style={styles.cfpText}>Empreinte carbonne : {productInfo.value}</Text>
 
                         <Text style={styles.titleText}>Ingrédients</Text>
                         <Text style={styles.defaultText}>{productInfo.ingredients}</Text>
@@ -331,6 +332,12 @@ const styles = StyleSheet.create({
     defaultText: {
         marginLeft: 5,
         marginRight: 5,
+    },
+    cfpText:{
+        marginTop: 10,
+        fontWeight: 'bold',
+        color:mainColor,
+        fontSize: 18,
     },
     cartButton: {
         marginLeft: 15,
