@@ -56,8 +56,8 @@ ProductBasket.schema = {
     properties: {
         barcode: 'string',
         quantity: 'int',
-        totalCFP: 'float?',
-        CFPUnit: 'string?'
+        // totalCFP: 'float?',
+        // CFPUnit: 'string?'
     },
 };
 
@@ -71,6 +71,8 @@ Basket.schema = {
     properties: {
         dayTimestamp: 'int',
         updatedAt: 'date',
+        totalCFP: 'float',
+        CFPUnit: 'string',
         content: {type: 'list', objectType: 'ProductBasket', default: []},
     },
 };
@@ -78,4 +80,4 @@ Basket.schema = {
 
 // incrémenter schemaVersion à chaque modification des tables
 
-export default new Realm({schema: [User, Product, ProductBasket, Basket, Equivalent], schemaVersion: 25});
+export default new Realm({schema: [User, Product, ProductBasket, Basket, Equivalent], schemaVersion: 26});

@@ -19,14 +19,15 @@ class ProductItem extends Component {
                         <Text style={styles.titleText}>{product.name}</Text>
                     </View>
                     <View style={styles.descriptionContainer}>
-                        <Text style={styles.descriptionText}>
-                            {cartCounter > 0? cartCounter + " articles dans le panier": undefined}
-                        </Text>
+
                         <Text>
-                            TotalCFP: {formatFloat(product.totalCFP)}
+                            Empreinte carbone : {formatFloat(product.totalCFP)} {product.CFPUnit}
                         </Text>
                         <Text>
                             Quantité: {product.weight} {product.weightUnit}
+                        </Text>
+                        <Text style={styles.descriptionText}>
+                            {cartCounter > 0? cartCounter + " articles dans le panier": undefined}
                         </Text>
                         {
                             cartCounter === undefined  // history view

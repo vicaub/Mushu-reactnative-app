@@ -35,12 +35,11 @@ class BasketDetails extends Component {
     }
 
     render() {
-        // TODO: add cfp
         if (this.state.basketObject && this.state.basketObject.content.length > 0) {
             return (
                 <View style={styles.mainContainer}>
                     <View style={styles.header}>
-                        <Text style={styles.cfpText}>Empreinte carbone : 12,6kg de Co2</Text>
+                        <Text style={styles.cfpText}>Empreinte carbone : {this.state.basketObject.totalCFP}{this.state.basketObject.CFPUnit} de Co2</Text>
                         <Text style={styles.equivalentText}>L'empreinte carbone de votre panier est équivalent à un trajet Paris-Londres en TGV</Text>
                     </View>
                     <FlatList
