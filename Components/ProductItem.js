@@ -16,13 +16,16 @@ class ProductItem extends Component {
                 <View style={styles.contentContainer}>
                     <View style={styles.headerContainer}>
                         <Text style={styles.titleText}>{product.name}</Text>
-                        <Text style={styles.voteText}>{cartCounter}</Text>
                     </View>
                     <View style={styles.descriptionContainer}>
                         <Text style={styles.descriptionText}>
-                            {product.categories !== undefined && product.categories.length > 0 
-                                ? product.categories[product.categories.length - 1].trim() 
-                                : 'Pas de catégorie renseignée'}
+                            {cartCounter} articles dans le panier
+                        </Text>
+                        <Text>
+                            TotalCFP: {product.totalCFP}
+                        </Text>
+                        <Text>
+                            Quantité: {product.weight} {product.weightUnit}
                         </Text>
                         {
                             cartCounter === undefined  // history view

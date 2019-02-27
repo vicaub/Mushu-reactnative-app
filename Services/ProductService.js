@@ -31,7 +31,7 @@ let ProductService = {
         DBConnector.write(() => {
             product.updatedAt = new Date();
             product.scanDate = new Date();
-            product.nbScans = 0;
+            product.nbScans = 1;
             DBConnector.create('Product', product);
         })
     },

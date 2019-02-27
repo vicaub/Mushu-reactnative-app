@@ -18,10 +18,10 @@ export function formatProductJson(json) {
         name: json.name,
         imageUrl: json.image_url,
         CFPDensity: json.value,
-        totalCFP: 0,
-        CFPUnit: 'no information',
-        weight: json.quantity_value,
-        weightUnit: json.quantity_string,
+        totalCFP: 1.12,
+        CFPUnit: 'kg',
+        weight: 100,
+        weightUnit: 'gr',
     };
 }
 
