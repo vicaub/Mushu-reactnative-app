@@ -147,9 +147,8 @@ class ProductScreen extends Component {
     }
 
     _displayProductInfo() {
-        // TODO: add cfp info
         // TODO: add recommandations
-        // TODO: add equivalent carbone
+        // TODO: add cfp ingredient distribution
 
         const {productInfo, isLoading, isConnected, equivalent} = this.state;
 
@@ -209,29 +208,6 @@ class ProductScreen extends Component {
         }
     }
 
-    // _checkAllergies() {
-    //     const {product, isLoading, fromHistory, fromBasket, hasCheckedAllergies} = this.state;
-    //     if (!isLoading && product && Object.keys(product).length > 0 && !hasCheckedAllergies && !fromHistory && !fromBasket) {
-    //         this.state.hasCheckedAllergies = true;
-    //         let user = UserService.findAll()[0];
-    //         if (user !== undefined && product.allergens_ids) {
-    //             let allergens = [];
-    //             for (let allergen of product.allergens_ids) {
-    //                 for (let user_allergen of Array.from(user.allergies)) {
-    //                     if (user_allergen.id === allergen) {
-    //                         allergens.push(user_allergen.name);
-    //                     }
-    //                 }
-    //             }
-    //             if (allergens.length !== 0) {
-    //                 Alert.alert(
-    //                     'Attention',
-    //                     'Nous avons détecté des ingrédients auquels vous êtes allergique dans ce produit : ' + allergens.join(', ')
-    //                 );
-    //             }
-    //         }
-    //     }
-    // }
 
     render() {
         return (
