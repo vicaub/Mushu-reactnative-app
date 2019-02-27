@@ -22,7 +22,7 @@ class ProductItem extends Component {
                             {cartCounter > 0? cartCounter + " articles dans le panier": undefined}
                         </Text>
                         <Text>
-                            TotalCFP: {product.totalCFP}
+                            TotalCFP: {product.totalCFP.toFixed(2)}
                         </Text>
                         <Text>
                             Quantité: {product.weight} {product.weightUnit}

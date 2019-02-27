@@ -167,8 +167,7 @@ class ProductScreen extends Component {
                                     style={styles.productNameText}>{productInfo.name ? productInfo.name : "Nom inconnu"}</Text>
                                 <Text style={styles.defaultText}>Quantité
                                     : {productInfo.weight + productInfo.weightUnit}</Text>
-                                {/*TODO: print barcode*/}
-                                {/*<Text style={styles.descriptionText}>Code barre : {product._id}</Text>*/}
+                                <Text style={styles.descriptionText}>Code barre : {productInfo.barcode}</Text>
                             </View>
                         </View>
 
@@ -177,12 +176,18 @@ class ProductScreen extends Component {
                         {/*<Text*/}
                         {/*style={styles.defaultText}>{product.categories ? product.categories : "Non renseigné"}*/}
                         {/*</Text>*/}
-                        <Text style={styles.cfpText}>Empreinte carbonne : {productInfo.totalCFP}</Text>
-                        <Text style={styles.cfpText}>Densité : {productInfo.CFPDensity}</Text>
 
+                        <Text style={styles.cfpText}>
+                            Empreinte carbonne : {productInfo.totalCFP.toFixed(2)} {productInfo.CFPUnit}
+                        </Text>
+                        <Text style={styles.densityText}>
+                            Soit {productInfo.CFPDensity.toFixed(2)} kg de carbone par kg de produit
+                        </Text>
 
-                        <Text style={styles.titleText}>Equivalent</Text>
-                        <Text style={styles.defaultText}>{JSON.stringify(equivalent)}</Text>
+                        <Text style={styles.equivalentText}>{equivalent.train.text}</Text>
+
+                        {/*<Text style={styles.titleText}>Ingrédients</Text>*/}
+                        {/*<Text style={styles.defaultText}>{productInfo.ingredients}</Text>*/}
 
                         {/*{ProductScreen._parseIngredientWithAllergens(product.ingredients)}*/}
 
@@ -209,29 +214,6 @@ class ProductScreen extends Component {
         }
     }
 
-    // _checkAllergies() {
-    //     const {product, isLoading, fromHistory, fromBasket, hasCheckedAllergies} = this.state;
-    //     if (!isLoading && product && Object.keys(product).length > 0 && !hasCheckedAllergies && !fromHistory && !fromBasket) {
-    //         this.state.hasCheckedAllergies = true;
-    //         let user = UserService.findAll()[0];
-    //         if (user !== undefined && product.allergens_ids) {
-    //             let allergens = [];
-    //             for (let allergen of product.allergens_ids) {
-    //                 for (let user_allergen of Array.from(user.allergies)) {
-    //                     if (user_allergen.id === allergen) {
-    //                         allergens.push(user_allergen.name);
-    //                     }
-    //                 }
-    //             }
-    //             if (allergens.length !== 0) {
-    //                 Alert.alert(
-    //                     'Attention',
-    //                     'Nous avons détecté des ingrédients auquels vous êtes allergique dans ce produit : ' + allergens.join(', ')
-    //                 );
-    //             }
-    //         }
-    //     }
-    // }
 
     render() {
         return (
@@ -273,7 +255,7 @@ const styles = StyleSheet.create({
     },
     productNameText: {
         fontWeight: 'bold',
-        fontSize: 30,
+        fontSize: 25,
         flexWrap: 'wrap',
         marginLeft: 5,
         marginRight: 5,
@@ -288,6 +270,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         marginLeft: 5,
         marginRight: 5,
+        marginTop: 10,
         color: '#000000',
         textAlign: 'left'
     },
@@ -302,10 +285,28 @@ const styles = StyleSheet.create({
         marginRight: 5,
     },
     cfpText: {
+        marginLeft:5,
+        marginRight: 5,
         marginTop: 10,
         fontWeight: 'bold',
         color: mainColor,
         fontSize: 18,
+        textAlign: 'center',
+    },
+    densityText: {
+        marginLeft:5,
+        marginRight: 5,
+        marginTop: 10,
+        fontStyle: 'italic',
+        fontSize: 12,
+        textAlign: 'center',
+    },
+    equivalentText:{
+        marginLeft: 5,
+        marginRight: 5,
+        marginTop: 10,
+        marginBottom: 10,
+        fontSize: 15,
     },
     cartButton: {
         marginLeft: 15,
