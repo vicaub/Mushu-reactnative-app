@@ -19,7 +19,7 @@ class ProductItem extends Component {
                     </View>
                     <View style={styles.descriptionContainer}>
                         <Text style={styles.descriptionText}>
-                            {cartCounter} articles dans le panier
+                            {cartCounter > 0? cartCounter + " articles dans le panier": undefined}
                         </Text>
                         <Text>
                             TotalCFP: {product.totalCFP}
