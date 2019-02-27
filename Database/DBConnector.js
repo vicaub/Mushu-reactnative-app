@@ -1,18 +1,5 @@
 import Realm from 'realm';
 
-//Realm database : Allergens, User, Products and Baskets
-
-
-class Allergen extends Realm.Object {
-}
-
-Allergen.schema = {
-    name: 'Allergen',
-    properties: {
-        id: 'string',
-        name: 'string',
-    },
-};
 
 class User extends Realm.Object {
 }
@@ -25,8 +12,18 @@ User.schema = {
         name: 'string',
         birthDate: 'date?',
         gender: 'string?',
-        allergies: 'Allergen[]',
         updatedAt: 'date?',
+    },
+};
+
+class Equivalent extends Realm.Object {
+}
+
+Equivalent.schema = {
+    name: 'Equivalent',
+    properties: {
+        value: 'float',
+        text: 'string'
     },
 };
 
@@ -35,16 +32,19 @@ class Product extends Realm.Object {
 
 Product.schema = {
     name: 'Product',
-    primaryKey: 'barCode',
+    primaryKey: 'barcode',
     properties: {
-        barCode: 'string',
+        barcode: 'string',
         name: 'string?',
-        categories: {type : 'list', objectType: 'string', default: []},
-        scanDate: 'date',
+        updatedAt: 'date',
         nbScans: 'int',
         imageUrl: 'string?',
-        ingredients: {type: 'list', objectType: 'string', default: []},
-        allergens: {type: 'list', objectType: 'string', default: []}
+        CFPDensity: 'float',
+        totalCFP: 'float',
+        CFPUnit: 'string',
+        weight: 'float',
+        weightUnit: 'string',
+        equivalent: {type: 'data', optional: true}
     },
 };
 
@@ -56,8 +56,8 @@ ProductBasket.schema = {
     properties: {
         barcode: 'string',
         quantity: 'int',
-        categories: {type : 'list', objectType: 'string', default: []},
-        score: 'string',
+        totalCFP: 'float?',
+        CFPUnit: 'string?'
     },
 };
 
@@ -70,7 +70,7 @@ Basket.schema = {
     primaryKey: 'dayTimestamp',
     properties: {
         dayTimestamp: 'int',
-        date: 'date',
+        updatedAt: 'date',
         content: {type: 'list', objectType: 'ProductBasket', default: []},
     },
 };
@@ -78,4 +78,4 @@ Basket.schema = {
 
 // incrémenter schemaVersion à chaque modification des tables
 
-export default new Realm({schema: [Allergen, User, Product, ProductBasket, Basket], schemaVersion: 20});
+export default new Realm({schema: [User, Product, ProductBasket, Basket, Equivalent], schemaVersion: 25});

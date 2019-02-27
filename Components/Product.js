@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, ScrollView, Image, Alert} from 'react-native';
-import {getCFPFromBarcode} from '../API/mushuBackend';
+import {getCFPFromBarcode, getEquivFromCFP, formatProductJson} from '../API/mushuBackend';
 import OupsScreen from './Common/Oups';
 import Loader from './Common/Loader';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -10,7 +10,7 @@ import UserService from '../Services/UserService'
 import ProductService from '../Services/ProductService';
 import BasketService from '../Services/BasketService';
 import {todayTimeStamp} from '../Helper/basketHelper';
-import { mainColor } from '../Navigation/HeaderStyle';
+import {mainColor} from '../Navigation/HeaderStyle';
 
 
 class ProductScreen extends Component {
@@ -19,12 +19,12 @@ class ProductScreen extends Component {
         super(props);
         this.state = {
             productInfo: undefined,
+            equivalent: undefined,
             isLoading: true,
             isConnected: true,
             fromHistory: this.props.navigation.getParam('fromHistory'),
             fromBasket: !!this.props.navigation.getParam('basketTimestamp'),
             basketTimestamp: this.props.navigation.getParam('basketTimestamp') ? this.props.navigation.getParam('basketTimestamp') : todayTimeStamp(),
-            // hasCheckedAllergies: false,
             quantityInBasket: 0,
             cartCounter: 1,
         };
@@ -34,24 +34,33 @@ class ProductScreen extends Component {
         const barcode = this.props.navigation.getParam('barcode');
         this.setState({quantityInBasket: BasketService.findProductQuantityInBasket(this.state.basketTimestamp, barcode)});
         getCFPFromBarcode(barcode)
-            .then(data => {
-                console.log(data);
-                this.setState({
-                    productInfo: data,
-                    isLoading: false
-                });
-                //TODO: save product in DB
-
-                // if (this.props.navigation.getParam('update') && Object.keys(this.state.productInfo).length > 0) {
-                //     let product = ProductService.findProduct(data, this.props.navigation.getParam('barcode'));
-                //     ProductService.scan(product);
-                // }
+            .then(productJson => {
+                productJson = formatProductJson(productJson);
+                console.log(productJson);
+                // TODO: get reall cfp with quantity
+                getEquivFromCFP(10).then((equiv) => {
+                    console.log(equiv);
+                    // productJson.equivalent = equiv;
+                    this.setState({
+                        productInfo: productJson,
+                        equivalent: equiv,
+                        isLoading: false
+                    });
+                    console.log("finished featching api");
+                    if (this.props.navigation.getParam('update') && Object.keys(this.state.productInfo).length > 0) {
+                        try {
+                            ProductService.addOrUpdate(productJson);
+                        } catch (e) {
+                            console.error(e);
+                        }
+                    }
+                })
             })
             .catch((error) => {
-                    console.log(error)
+                    console.error(error);
                     this.setState({isConnected: false, isLoading: false})
                 }
-            )
+            );
     }
 
     _displayLoading() {
@@ -62,57 +71,14 @@ class ProductScreen extends Component {
         }
     }
 
-    /**
-     * Input: string of ingredients with allergens
-     * Output: JSX corresponding to the <Text> with allergens in bold
-     */
-    // static _parseIngredientWithAllergens(ingredientsWithAllergens) {
-    //     if (!ingredientsWithAllergens) {
-    //         return (<Text style={styles.defaultText}>Non renseigné</Text>)
-    //     } else {
-    //         const splitedIngredients = ingredientsWithAllergens.split(/<span class=\"allergen\">|<\/span>/);
-    //
-    //         return (
-    //             <Text style={styles.defaultText}>
-    //                 {splitedIngredients.map((value, index) => {
-    //                     if (index % 2 === 1) {
-    //                         return (
-    //                             <Text style={{fontWeight: 'bold'}} key={index}>{value}</Text>
-    //                         )
-    //                     } else {
-    //                         return (
-    //                             <Text key={index}>{value}</Text>
-    //                         )
-    //                     }
-    //                 })}
-    //             </Text>
-    //         )
-    //     }
-    // }
-
-    /**
-     * Generate JSX for allergens
-     */
-    // static _parseAllergens(allergens) {
-    //     if (!allergens) {
-    //         return (<View></View>);
-    //     } else {
-    //         return (
-    //             <View>
-    //                 <Text style={styles.titleText}>Allergènes</Text>
-    //                 <Text style={styles.defaultText}>{allergens}</Text>
-    //             </View>
-    //         )
-    //     }
-    // }
 
     _addProductToCart() {
-        BasketService.addProductToBasket(this.state.basketTimestamp, this.state.product, this.state.cartCounter);
+        BasketService.addProductToBasket(this.state.basketTimestamp, this.state.productInfo.barcode, this.state.cartCounter);
         this.setState({quantityInBasket: this.state.cartCounter});
     }
 
     _removeProductFromCart() {
-        BasketService.deleteProductFromBasket(this.state.basketTimestamp, this.state.product._id);
+        BasketService.deleteProductFromBasket(this.state.basketTimestamp, this.state.productInfo.barcode);
         this.setState({quantityInBasket: 0, cartCounter: this.state.quantityInBasket});
     }
 
@@ -185,7 +151,7 @@ class ProductScreen extends Component {
         // TODO: add recommandations
         // TODO: add equivalent carbone
 
-        const {productInfo, isLoading, isConnected} = this.state;
+        const {productInfo, isLoading, isConnected, equivalent} = this.state;
 
         if (!isLoading) {
             if (productInfo && Object.keys(productInfo).length > 0) {
@@ -194,13 +160,13 @@ class ProductScreen extends Component {
                         <View style={styles.headerContainer}>
                             <Image
                                 style={styles.imageProduct}
-                                source={productInfo.image_url ? {uri: productInfo.image_url} : require('../assets/images/No-images-placeholder.png')}
+                                source={productInfo.imageUrl ? {uri: productInfo.imageUrl} : require('../assets/images/No-images-placeholder.png')}
                             />
                             <View style={styles.headerDescription}>
                                 <Text
                                     style={styles.productNameText}>{productInfo.name ? productInfo.name : "Nom inconnu"}</Text>
                                 <Text style={styles.defaultText}>Quantité
-                                    : {productInfo.quantity_string ? productInfo.quantity_string : "Non renseignée"}</Text>
+                                    : {productInfo.weight + productInfo.weightUnit}</Text>
                                 {/*TODO: print barcode*/}
                                 {/*<Text style={styles.descriptionText}>Code barre : {product._id}</Text>*/}
                             </View>
@@ -211,10 +177,12 @@ class ProductScreen extends Component {
                         {/*<Text*/}
                         {/*style={styles.defaultText}>{product.categories ? product.categories : "Non renseigné"}*/}
                         {/*</Text>*/}
-                        <Text style={styles.cfpText}>Empreinte carbonne : {productInfo.value}</Text>
+                        <Text style={styles.cfpText}>Empreinte carbonne : {productInfo.totalCFP}</Text>
+                        <Text style={styles.cfpText}>Densité : {productInfo.CFPDensity}</Text>
 
-                        <Text style={styles.titleText}>Ingrédients</Text>
-                        <Text style={styles.defaultText}>{productInfo.ingredients}</Text>
+
+                        <Text style={styles.titleText}>Equivalent</Text>
+                        <Text style={styles.defaultText}>{JSON.stringify(equivalent)}</Text>
 
                         {/*{ProductScreen._parseIngredientWithAllergens(product.ingredients)}*/}
 
@@ -333,10 +301,10 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginRight: 5,
     },
-    cfpText:{
+    cfpText: {
         marginTop: 10,
         fontWeight: 'bold',
-        color:mainColor,
+        color: mainColor,
         fontSize: 18,
     },
     cartButton: {

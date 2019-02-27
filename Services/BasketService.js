@@ -28,7 +28,7 @@ let BasketService = {
         } else {
             const basketInfo = {
                 dayTimestamp: todayTimeStamp(),
-                date: new Date(),
+                updatedAt: new Date(),
                 content: [],
             };
             try {
@@ -65,7 +65,7 @@ let BasketService = {
     /**
      * Add a product to a specific basket
      */
-    addProductToBasket: (basketTimestamp, product, quantity) => {
+    addProductToBasket: (basketTimestamp, barcode, quantity) => {
         // Check if basket exists
         const basket = BasketService.findBasketByTimestamp(basketTimestamp);
 
@@ -73,7 +73,7 @@ let BasketService = {
             // Check if product in basket
             let found = false;
             for (let i = 0; i < basket.content.length; i++) {
-                if (basket.content[i].barcode === product._id) {
+                if (basket.content[i].barcode === barcode) {
                     found = true;
                     basket.content[i].quantity = quantity;
                     break;
@@ -81,9 +81,7 @@ let BasketService = {
             }
             if (!found) {
                 let savedProduct = {
-                    barcode: product._id,
-                    categories: product.categories !== undefined ? product.categories.split(",").map(c => c.trim()) : [],
-                    score: product.nutrition_grades !== undefined ? product.nutrition_grades : '',
+                    barcode,
                     quantity,
                 };
                 basket.content.unshift(savedProduct);
