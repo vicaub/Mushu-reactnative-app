@@ -39,7 +39,11 @@ class ProductScreen extends Component {
                 productJson = formatProductJson(productJson);
                 console.log(productJson);
                 // TODO: get reall cfp with quantity
-                getEquivFromCFP(10).then((equiv) => {
+                let cfpKilo = productJson.totalCFP;
+                if (productJson.CFPUnit === "g") {
+                    cfpKilo /= 1000;
+                }
+                getEquivFromCFP(cfpKilo).then((equiv) => {
                     console.log(equiv);
                     // productJson.equivalent = equiv;
                     this.setState({
