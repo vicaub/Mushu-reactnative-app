@@ -17,11 +17,11 @@ export function formatProductJson(json) {
         barcode: json.barcode,
         name: json.name,
         imageUrl: json.image_url,
-        CFPDensity: json.value,
-        totalCFP: 1.12,
-        CFPUnit: 'kg',
-        weight: 100,
-        weightUnit: 'gr',
+        CFPDensity: json.CFPDensity,
+        totalCFP: json.TotalCFP,
+        CFPUnit: json.CFPUnit,
+        weight: json.weight,
+        weightUnit: json.weightUnit,
     };
 }
 

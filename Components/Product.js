@@ -11,6 +11,7 @@ import ProductService from '../Services/ProductService';
 import BasketService from '../Services/BasketService';
 import {todayTimeStamp} from '../Helper/basketHelper';
 import {mainColor} from '../Navigation/HeaderStyle';
+import {formatFloat} from "../Helper/stringParser";
 
 
 class ProductScreen extends Component {
@@ -177,10 +178,10 @@ class ProductScreen extends Component {
                         {/*</Text>*/}
 
                         <Text style={styles.cfpText}>
-                            Empreinte carbonne : {productInfo.totalCFP.toFixed(2)} {productInfo.CFPUnit}
+                            Empreinte carbonne : {formatFloat(productInfo.totalCFP)} {productInfo.CFPUnit}
                         </Text>
                         <Text style={styles.densityText}>
-                            Soit {productInfo.CFPDensity.toFixed(2)} kg de carbone par kg de produit
+                            Soit {formatFloat(productInfo.CFPDensity)} kg de carbone par kg de produit
                         </Text>
 
                         <Text style={styles.equivalentText}>{equivalent.train.text}</Text>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Text, Image } from 'react-native'
 import PropTypes from "prop-types";
+import {formatFloat} from '../Helper/stringParser'
 
 class ProductItem extends Component {
     render() {
@@ -22,7 +23,7 @@ class ProductItem extends Component {
                             {cartCounter > 0? cartCounter + " articles dans le panier": undefined}
                         </Text>
                         <Text>
-                            TotalCFP: {product.totalCFP.toFixed(2)}
+                            TotalCFP: {formatFloat(product.totalCFP)}
                         </Text>
                         <Text>
                             Quantité: {product.weight} {product.weightUnit}
