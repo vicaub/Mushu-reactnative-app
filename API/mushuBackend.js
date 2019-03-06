@@ -22,6 +22,7 @@ export function formatProductJson(json) {
         CFPUnit: json.CFPUnit,
         weight: json.weight,
         weightUnit: json.weightUnit,
+        ingredients: json.ingredients
     };
 }
 

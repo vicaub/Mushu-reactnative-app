@@ -27,6 +27,33 @@ Equivalent.schema = {
     },
 };
 
+// class Match extends Realm.Object {
+// }
+//
+// Match.schema = {
+//     name: 'Match',
+//     properties: {
+//         category: 'string',
+//         cfp: 'float',
+//         product: 'string'
+// },
+// };
+//
+// class Ingredient extends Realm.Object {
+// }
+//
+// Ingredient.schema = {
+//     name: 'Ingredient',
+//     properties: {
+//         name: 'string',
+//         percent: 'float',
+//         match: 'Match?',
+//         // children: {type: 'list', objectType: 'Ingredient', optional: true}
+//         children: 'Ingredient[]?'
+//     },
+// };
+
+
 class Product extends Realm.Object {
 }
 
@@ -44,7 +71,8 @@ Product.schema = {
         CFPUnit: 'string',
         weight: 'float',
         weightUnit: 'string',
-        equivalent: {type: 'list', objectType: 'Equivalent', default: []}
+        equivalent: {type: 'list', objectType: 'Equivalent', default: []},
+        ingredients: 'string'
     },
 };
 
@@ -78,4 +106,4 @@ Basket.schema = {
 
 // incrémenter schemaVersion à chaque modification des tables
 
-export default new Realm({schema: [User, Product, ProductBasket, Basket, Equivalent], schemaVersion: 27});
+export default new Realm({schema: [User, Product, ProductBasket, Basket, Equivalent], schemaVersion: 29});

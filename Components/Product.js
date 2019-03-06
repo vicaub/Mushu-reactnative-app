@@ -6,7 +6,6 @@ import Loader from './Common/Loader';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import NumericInput from 'react-native-numeric-input';
 import Emoji from 'react-native-emoji';
-import UserService from '../Services/UserService'
 import ProductService from '../Services/ProductService';
 import BasketService from '../Services/BasketService';
 import {todayTimeStamp} from '../Helper/basketHelper';
