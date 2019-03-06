@@ -4,6 +4,9 @@ import ProductItem from './ProductItem'
 import BasketService from "../Services/BasketService";
 import ProductService from "../Services/ProductService";
 import {mainColor} from "../Navigation/HeaderStyle";
+import {formatFloat} from "../Helper/stringParser";
+import {getEquivFromCFP} from "../API/mushuBackend";
+
 
 class BasketDetails extends Component {
 
@@ -21,9 +24,26 @@ class BasketDetails extends Component {
         this.willFocus = this.props.navigation.addListener(
             'willFocus',
             () => {
-                this.setState({basketObject: BasketService.findBasketByTimestamp(this.state.basketId)});
+                const basketObject = BasketService.findBasketByTimestamp(this.state.basketId)
+                console.warn(basketObject)
+                getEquivFromCFP(basketObject.totalCFP, basketObject.CFPUnit).then((equiv) => {
+                    console.log(equiv);
+                    // productJson.equivalent = equiv;
+                    this.setState({
+                        equivalent: equiv,
+                        isLoading: false,
+                        basketObject
+                    });
+                    console.log("finished featching api");
+                }).catch((error) => {
+                        console.error(error);
+                        this.setState({isConnected: false, isLoading: false})
+                    }
+                );
             }
         );
+
+
     }
 
     componentWillUnmount() {
@@ -34,13 +54,19 @@ class BasketDetails extends Component {
         this.props.navigation.navigate("Product", {barcode: code, basketTimestamp: this.state.basketId});
     }
 
+    _pickEquivalent(){
+        const equivalents = this.state.equivalent
+        const rand_int = Math.floor(Math.random() * equivalents.length)
+        return equivalents[rand_int].text
+    }
+
     render() {
         if (this.state.basketObject && this.state.basketObject.content.length > 0) {
             return (
                 <View style={styles.mainContainer}>
                     <View style={styles.header}>
-                        <Text style={styles.cfpText}>Empreinte carbone : {this.state.basketObject.totalCFP}{this.state.basketObject.CFPUnit} de Co2</Text>
-                        <Text style={styles.equivalentText}>L'empreinte carbone de votre panier est équivalent à un trajet Paris-Londres en TGV</Text>
+                        <Text style={styles.cfpText}>Empreinte carbone : {formatFloat(this.state.basketObject.totalCFP)}{this.state.basketObject.CFPUnit} de Co2</Text>
+                        <Text style={styles.equivalentText}>{this._pickEquivalent()}</Text>
                     </View>
                     <FlatList
                     data={this.state.basketObject.content}

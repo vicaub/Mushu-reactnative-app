@@ -26,8 +26,8 @@ export function formatProductJson(json) {
 }
 
 
-export function getEquivFromCFP(cfp) {
-    const url = apiUrl + '/equivalent?cfp=' + cfp;
+export function getEquivFromCFP(cfp, unit) {
+    const url = apiUrl + '/equivalent?cfp=' + cfp + "&unit=" + unit;
     return fetch(url)
         .then((response) => {
             return response.json();

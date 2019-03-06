@@ -43,7 +43,7 @@ class ProductScreen extends Component {
                 if (productJson.CFPUnit === "g") {
                     cfpKilo /= 1000;
                 }
-                getEquivFromCFP(cfpKilo).then((equiv) => {
+                getEquivFromCFP(cfpKilo, "kg").then((equiv) => {
                     console.log(equiv);
                     // productJson.equivalent = equiv;
                     this.setState({
@@ -324,4 +324,8 @@ const styles = StyleSheet.create({
         borderTopColor: '#d8d8d8',
         borderTopWidth: 1,
     },
+    chartStyle:{
+        marginTop: 15,
+        marginLeft:30,
+    }
 });
