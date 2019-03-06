@@ -59,7 +59,11 @@ class ProductScreen extends Component {
                             console.error(e);
                         }
                     }
-                })
+                }).catch((error) => {
+                        console.error(error);
+                        this.setState({isConnected: false, isLoading: false})
+                    }
+                );
             })
             .catch((error) => {
                     console.error(error);
