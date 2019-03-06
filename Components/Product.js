@@ -45,13 +45,12 @@ class ProductScreen extends Component {
                 }
                 getEquivFromCFP(cfpKilo).then((equiv) => {
                     console.log(equiv);
-                    // productJson.equivalent = equiv;
+                    productJson.equivalent = equiv;
                     this.setState({
                         productInfo: productJson,
                         equivalent: equiv,
                         isLoading: false
                     });
-                    console.log("finished featching api");
                     if (this.props.navigation.getParam('update') && Object.keys(this.state.productInfo).length > 0) {
                         try {
                             ProductService.addOrUpdate(productJson);

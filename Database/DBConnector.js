@@ -22,7 +22,7 @@ class Equivalent extends Realm.Object {
 Equivalent.schema = {
     name: 'Equivalent',
     properties: {
-        value: 'float',
+        name: 'string',
         text: 'string'
     },
 };
@@ -44,7 +44,7 @@ Product.schema = {
         CFPUnit: 'string',
         weight: 'float',
         weightUnit: 'string',
-        equivalent: {type: 'data', optional: true}
+        equivalent: {type: 'list', objectType: 'Equivalent', default: []}
     },
 };
 
@@ -56,8 +56,6 @@ ProductBasket.schema = {
     properties: {
         barcode: 'string',
         quantity: 'int',
-        // totalCFP: 'float?',
-        // CFPUnit: 'string?'
     },
 };
 
@@ -80,4 +78,4 @@ Basket.schema = {
 
 // incrémenter schemaVersion à chaque modification des tables
 
-export default new Realm({schema: [User, Product, ProductBasket, Basket, Equivalent], schemaVersion: 26});
+export default new Realm({schema: [User, Product, ProductBasket, Basket, Equivalent], schemaVersion: 27});
