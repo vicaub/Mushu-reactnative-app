@@ -188,7 +188,7 @@ class ProductScreen extends Component {
                             Soit {formatFloat(productInfo.CFPDensity)} kg de carbone par kg de produit
                         </Text>
 
-                        <Text style={styles.equivalentText}>{equivalent.train.text}</Text>
+                        {/*<Text style={styles.equivalentText}>{equivalent.delta_avg}</Text>*/}
 
                         {/*<Text style={styles.titleText}>Ingrédients</Text>*/}
                         {/*<Text style={styles.defaultText}>{productInfo.ingredients}</Text>*/}
