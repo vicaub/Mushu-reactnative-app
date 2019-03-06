@@ -12,6 +12,7 @@ import BasketService from '../Services/BasketService';
 import {todayTimeStamp} from '../Helper/basketHelper';
 import {mainColor} from '../Navigation/HeaderStyle';
 import {formatFloat} from "../Helper/stringParser";
+import ProductStat from "./Statistics/ProductStat";
 
 
 class ProductScreen extends Component {
@@ -197,15 +198,7 @@ class ProductScreen extends Component {
                         {/*<Text style={styles.titleText}>Ingrédients</Text>*/}
                         {/*<Text style={styles.defaultText}>{productInfo.ingredients}</Text>*/}
 
-                        {/*{ProductScreen._parseIngredientWithAllergens(product.ingredients)}*/}
-
-                        {/*{ProductScreen._parseAllergens(product.allergens)}*/}
-
-                        {/*<Image*/}
-                        {/*style={styles.imageNutri}*/}
-                        {/*source={{uri: 'https://static.openfoodfacts.org/images/misc/nutriscore-' + product.nutrition_grades + '.png'}}*/}
-                        {/*/>*/}
-
+                        <ProductStat ingredients={productInfo.ingredients}></ProductStat>
                         {this._printBasketOptions()}
 
                     </ScrollView>

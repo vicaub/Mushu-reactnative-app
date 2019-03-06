@@ -3,7 +3,7 @@ import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 import { View } from 'react-native';
 import HamburgerIcon from './HamburgerIcon';
-import Statistics from '../Components/Statistics';
+import Statistics from '../Components/Statistics/Statistics';
 import { headerStyle, mainColor } from './HeaderStyle';
 
 const StatsStackNavigator = createStackNavigator({
