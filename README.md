@@ -148,6 +148,10 @@ In order to build a release APK file:
 
 Finally you can run the following command to start building the release APK file :
 
+```
+cd android
+./gradlew assembleRelease
+```
 ```bash
 react-native run-android --variant=release
 ```
