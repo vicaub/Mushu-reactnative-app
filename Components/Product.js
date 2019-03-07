@@ -196,7 +196,11 @@ class ProductScreen extends Component {
                         {/*<Text style={styles.titleText}>Ingrédients</Text>*/}
                         {/*<Text style={styles.defaultText}>{productInfo.ingredients}</Text>*/}
 
-                        <ProductStat ingredients={productInfo.ingredients}></ProductStat>
+                        <ProductStat
+                            ingredients={productInfo.ingredients}
+                            weight={productInfo.weight}
+                            weightUnit={productInfo.weightUnit}/>
+
                         {this._printBasketOptions()}
 
                     </ScrollView>
@@ -284,7 +288,7 @@ const styles = StyleSheet.create({
         marginRight: 5,
     },
     cfpText: {
-        marginLeft:5,
+        marginLeft: 5,
         marginRight: 5,
         marginTop: 10,
         fontWeight: 'bold',
@@ -293,14 +297,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     densityText: {
-        marginLeft:5,
+        marginLeft: 5,
         marginRight: 5,
         marginTop: 10,
         fontStyle: 'italic',
         fontSize: 12,
         textAlign: 'center',
     },
-    equivalentText:{
+    equivalentText: {
         marginLeft: 5,
         marginRight: 5,
         marginTop: 10,
@@ -315,8 +319,8 @@ const styles = StyleSheet.create({
         borderTopColor: '#d8d8d8',
         borderTopWidth: 1,
     },
-    chartStyle:{
+    chartStyle: {
         marginTop: 15,
-        marginLeft:30,
+        marginLeft: 30,
     }
 });
