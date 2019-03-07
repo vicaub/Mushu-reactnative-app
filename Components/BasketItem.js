@@ -18,7 +18,7 @@ class BasketItem extends Component {
     render() {
         // TODO: add cfp
         const basket = this.props.basket;
-        const dateString = moment(basket.date).format("DD/MM/YYYY");
+        const dateString = moment(basket.updatedAt).format("DD/MM/YYYY");
         return (
             <View style={styles.mainContainer}>
                 <Image
@@ -42,7 +42,7 @@ class BasketItem extends Component {
 
 BasketItem.propTypes = {
     basket: PropTypes.shape({
-        date: PropTypes.object.isRequired,
+        updatedAt: PropTypes.object.isRequired,
         content: PropTypes.objectOf(PropTypes.shape({
             quantity: PropTypes.number.isRequired,
         })),
