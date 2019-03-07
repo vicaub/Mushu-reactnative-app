@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {StyleSheet, View, Text, Image} from 'react-native'
 import moment from 'moment';
 import PropTypes from "prop-types";
+import {formatFloat} from "../Helper/stringParser";
 
 moment.locale("fr");
 
@@ -32,6 +33,7 @@ class BasketItem extends Component {
                         </Text>
                     </View>
                     <View style={styles.descriptionContainer}>
+                        <Text style={styles.descriptionText}>{formatFloat(basket.totalCFP)} {basket.CFPUnit} Co2</Text>
                         <Text style={styles.descriptionText}>{this._getTotalQuantity()} produits</Text>
                     </View>
                 </View>
@@ -43,6 +45,7 @@ class BasketItem extends Component {
 BasketItem.propTypes = {
     basket: PropTypes.shape({
         updatedAt: PropTypes.object.isRequired,
+        totalCFP: PropTypes.number.isRequired,
         content: PropTypes.objectOf(PropTypes.shape({
             quantity: PropTypes.number.isRequired,
         })),
