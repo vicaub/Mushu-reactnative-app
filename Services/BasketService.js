@@ -73,20 +73,23 @@ let BasketService = {
         const product = ProductService.fetchProduct(barcode);
 
         DBConnector.write(() => {
+            // Add product cfp to basket cfp
             if (basket.CFPUnit === product.CFPUnit) {
-                basket.totalCFP += product.totalCFP;
+                // same unit
+                basket.totalCFP += product.totalCFP * quantity;
             } else if (basket.CFPUnit === "kg") {
-                basket.totalCFP += product.totalCFP/1000;
+                // product in g
+                basket.totalCFP += product.totalCFP * quantity / 1000;
             }  else {
-                basket.CFPUnit = product.CFPUnit;
-                basket.totalCFP = basket.totalCFP/1000 + product.totalCFP
+                // basket in g
+                basket.CFPUnit = "kg";
+                basket.totalCFP = basket.totalCFP/1000 + product.totalCFP * quantity
             }
             if (basket.CFPUnit === "g" && basket.totalCFP >= 1000) {
-                basket.CFPUnit /= 1000;
-                basket.totalCFP`= "kg`;
+                basket.totalCFP /= 1000;
+                basket.CFPUnit = "kg";
             }
-            // Increment basket total cfp
-            basket.totalCFP += product.totalCFP;
+
             // Check if product in basket
             let found = false;
             for (let i = 0; i < basket.content.length; i++) {
@@ -120,25 +123,28 @@ let BasketService = {
         const product = ProductService.fetchProduct(barcode);
 
         DBConnector.write(() => {
-            if (basket.CFPUnit === product.CFPUnit) {
-                basket.totalCFP -= product.totalCFP;
-            } else if (basket.CFPUnit === "kg") {
-                basket.totalCFP -= product.totalCFP/1000;
-            }
-            if (basket.CFPUnit === "kg" && basket.totalCFP < 1000) {
-                basket.CFPUnit *= 1000;
-                basket.totalCFP`= "g`;
-            }
-            // Increment basket total cfp
-            basket.totalCFP += product.totalCFP;
-
-
+            let quantity;
             for (let i = 0; i < basket.content.length; i++) {
                 if (basket.content[i].barcode === product.barcode) {
+                    quantity = basket.content[i].quantity;
                     basket.content.splice(i, 1);
                     break;
                 }
             }
+
+            // Remove product cfp to basket cfp
+            if (basket.CFPUnit === product.CFPUnit) {
+                basket.totalCFP -= product.totalCFP * quantity;
+            } else if (basket.CFPUnit === "kg") {
+                basket.totalCFP -= product.totalCFP * quantity  /1000;
+            }
+            if (basket.CFPUnit === "kg" && basket.totalCFP < 1000) {
+                basket.totalCFP *= 1000;
+                basket.CFPUnit = "g";
+            }
+
+
+
             try {
                 DBConnector.create('Basket', basket, true);
             } catch (e) {

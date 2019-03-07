@@ -24,7 +24,8 @@ class BasketDetails extends Component {
         this.willFocus = this.props.navigation.addListener(
             'willFocus',
             () => {
-                const basketObject = BasketService.findBasketByTimestamp(this.state.basketId)
+                const basketObject = BasketService.findBasketByTimestamp(this.state.basketId);
+                console.log(basketObject)
                 getEquivFromCFP(basketObject.totalCFP, basketObject.CFPUnit).then((equiv) => {
                     console.log(equiv);
                     // productJson.equivalent = equiv;
