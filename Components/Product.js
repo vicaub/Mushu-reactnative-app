@@ -50,18 +50,16 @@ class ProductScreen extends Component {
                         try {
                             ProductService.addOrUpdate(productJson);
                         } catch (e) {
-                            console.error(e);
+                            console.warn(e);
                         }
                     }
                 }).catch((error) => {
-                        console.log(1)
                         console.warn(error);
                         this.setState({isLoading: false, errorMessage: error.message})
                     }
                 );
             })
             .catch((error) => {
-                    console.log(1)
                     console.warn(error);
                     this.setState({isLoading: false, errorMessage: error.message})
                 }

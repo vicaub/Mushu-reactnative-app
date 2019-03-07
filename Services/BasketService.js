@@ -39,13 +39,13 @@ let BasketService = {
                     try {
                         DBConnector.create('Basket', basketInfo);
                     } catch (e) {
-                        console.error(e);
+                        console.warn(e);
                     }
 
                 });
                 return basketInfo;
             } catch (e) {
-                console.error(e);
+                console.warn(e);
             }
         }
     },
@@ -106,7 +106,7 @@ let BasketService = {
             try {
                 DBConnector.create('Basket', basket, true);
             } catch (e) {
-                console.error(e);
+                console.warn(e);
             }
         })
     },
@@ -142,7 +142,7 @@ let BasketService = {
             try {
                 DBConnector.create('Basket', basket, true);
             } catch (e) {
-                console.error(e);
+                console.warn(e);
             }
         })
     }

@@ -25,7 +25,6 @@ class BasketDetails extends Component {
             'willFocus',
             () => {
                 const basketObject = BasketService.findBasketByTimestamp(this.state.basketId)
-                console.warn(basketObject)
                 getEquivFromCFP(basketObject.totalCFP, basketObject.CFPUnit).then((equiv) => {
                     console.log(equiv);
                     // productJson.equivalent = equiv;
@@ -34,9 +33,8 @@ class BasketDetails extends Component {
                         isLoading: false,
                         basketObject
                     });
-                    console.log("finished featching api");
                 }).catch((error) => {
-                        console.error(error);
+                        console.warn(error);
                         this.setState({isConnected: false, isLoading: false})
                     }
                 );
