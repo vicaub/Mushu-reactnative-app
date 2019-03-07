@@ -5,10 +5,19 @@ export function getCFPFromBarcode(barcode) {
     const url = apiUrl + '/cfp?barcode=' + barcode;
     console.log("calling api: " + url);
     return fetch(url)
-        .then((response) => {
-            return response.json();
+        .then(response => response.json())
+        .then((json) => {
+            console.log(json)
+            if (json.message) {
+                throw {
+                    barcode: json.barcode,
+                    message: json.message
+                }
+            } else {
+                return json;
+            }
         })
-        .catch() //network fail is handled in call in Product.js
+    // .catch()
 }
 
 
@@ -33,5 +42,5 @@ export function getEquivFromCFP(cfp, unit) {
         .then((response) => {
             return response.json();
         })
-        .catch() //network fail is handled in call in Product.js
+    // .catch() //network fail is handled in call in Product.js
 }

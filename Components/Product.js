@@ -20,9 +20,7 @@ class ProductScreen extends Component {
         super(props);
         this.state = {
             productInfo: undefined,
-            equivalent: undefined,
             isLoading: true,
-            isConnected: true,
             fromHistory: this.props.navigation.getParam('fromHistory'),
             fromBasket: !!this.props.navigation.getParam('basketTimestamp'),
             basketTimestamp: this.props.navigation.getParam('basketTimestamp') ? this.props.navigation.getParam('basketTimestamp') : todayTimeStamp(),
@@ -37,8 +35,6 @@ class ProductScreen extends Component {
         getCFPFromBarcode(barcode)
             .then(productJson => {
                 productJson = formatProductJson(productJson);
-                console.log(productJson);
-                // TODO: get reall cfp with quantity
                 let cfpKilo = productJson.totalCFP;
                 if (productJson.CFPUnit === "g") {
                     cfpKilo /= 1000;
@@ -48,7 +44,6 @@ class ProductScreen extends Component {
                     productJson.equivalent = equiv;
                     this.setState({
                         productInfo: productJson,
-                        equivalent: equiv,
                         isLoading: false
                     });
                     if (this.props.navigation.getParam('update') && Object.keys(this.state.productInfo).length > 0) {
@@ -59,14 +54,16 @@ class ProductScreen extends Component {
                         }
                     }
                 }).catch((error) => {
-                        console.error(error);
-                        this.setState({isConnected: false, isLoading: false})
+                        console.log(1)
+                        console.warn(error);
+                        this.setState({isLoading: false, errorMessage: error.message})
                     }
                 );
             })
             .catch((error) => {
-                    console.error(error);
-                    this.setState({isConnected: false, isLoading: false})
+                    console.log(1)
+                    console.warn(error);
+                    this.setState({isLoading: false, errorMessage: error.message})
                 }
             );
     }
@@ -154,11 +151,21 @@ class ProductScreen extends Component {
         }
     }
 
+    _makeDayCFPAverage() {
+        const {totalCFP, CFPUnit} = this.state.productInfo;
+        let kgCFP = totalCFP;
+        if (CFPUnit === "g") {
+            kgCFP /= 1000
+        }
+        const dayAverage = kgCFP / 4 * 100
+
+        return `${formatFloat(dayAverage)}% de l'empreinte carbone journalière consommée par un français moyen`;
+    }
+
     _displayProductInfo() {
         // TODO: add recommandations
-        // TODO: add cfp ingredient distribution
 
-        const {productInfo, isLoading, isConnected, equivalent} = this.state;
+        const {productInfo, isLoading, isConnected} = this.state;
 
         if (!isLoading) {
             if (productInfo && Object.keys(productInfo).length > 0) {
@@ -191,7 +198,7 @@ class ProductScreen extends Component {
                             Soit {formatFloat(productInfo.CFPDensity)} kg de carbone par kg de produit
                         </Text>
 
-                        {/*<Text style={styles.equivalentText}>{equivalent.delta_avg}</Text>*/}
+                        <Text style={styles.equivalentText}>{this._makeDayCFPAverage()}</Text>
 
                         {/*<Text style={styles.titleText}>Ingrédients</Text>*/}
                         {/*<Text style={styles.defaultText}>{productInfo.ingredients}</Text>*/}
@@ -205,13 +212,9 @@ class ProductScreen extends Component {
 
                     </ScrollView>
                 )
-            } else if (isConnected) {
-                return (
-                    <OupsScreen message="Nous n'avons pas trouvé les informations de ce produit :/"/>
-                );
             } else {
                 return (
-                    <OupsScreen message="Pas de connexion internet..."/>
+                    <OupsScreen message={this.state.errorMessage? this.state.errorMessage : "Pas de connexion internet..."}/>
                 );
             }
         }
@@ -223,7 +226,6 @@ class ProductScreen extends Component {
             <View style={styles.mainContainer}>
                 {this._displayLoading()}
                 {this._displayProductInfo()}
-                {/*{this._checkAllergies()}*/}
             </View>
         )
     }
