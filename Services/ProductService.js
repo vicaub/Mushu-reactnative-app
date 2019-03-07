@@ -15,12 +15,14 @@ let ProductService = {
         if (productsInDB.length) {
             ProductService.update(Array.from(productsInDB)[0]);
         } else {
+            productJson.ingredients = JSON.stringify(productJson.ingredients);
             ProductService.add(productJson)
         }
     },
 
     update: (product) => {
         DBConnector.write(() => {
+            product.ingredients = JSON.stringify(product.ingredients);
             product.updatedAt = new Date();
             product.nbScans += 1;
             DBConnector.create('Product', product, true);
@@ -29,6 +31,7 @@ let ProductService = {
 
     add: (product) => {
         DBConnector.write(() => {
+            product.ingredients = JSON.stringify(product.ingredients);
             product.updatedAt = new Date();
             product.scanDate = new Date();
             product.nbScans = 1;
@@ -38,7 +41,10 @@ let ProductService = {
 
     // Retrieve a specific product in the database from the barcode (Used from the basket screen)
     fetchProduct: (barcode) => {
-        return Array.from(productDB.filtered("barcode = '" + barcode + "'"))[0]
+        const product = Array.from(productDB.filtered("barcode = '" + barcode + "'"))[0];
+        const new_product = JSON.parse(JSON.stringify(product));
+        new_product.ingredients = JSON.parse(new_product.ingredients)
+        return product
     }
 
 };

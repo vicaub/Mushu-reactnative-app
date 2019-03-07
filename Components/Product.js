@@ -6,7 +6,6 @@ import Loader from './Common/Loader';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import NumericInput from 'react-native-numeric-input';
 import Emoji from 'react-native-emoji';
-import UserService from '../Services/UserService'
 import ProductService from '../Services/ProductService';
 import BasketService from '../Services/BasketService';
 import {todayTimeStamp} from '../Helper/basketHelper';
@@ -46,13 +45,12 @@ class ProductScreen extends Component {
                 }
                 getEquivFromCFP(cfpKilo, "kg").then((equiv) => {
                     console.log(equiv);
-                    // productJson.equivalent = equiv;
+                    productJson.equivalent = equiv;
                     this.setState({
                         productInfo: productJson,
                         equivalent: equiv,
                         isLoading: false
                     });
-                    console.log("finished featching api");
                     if (this.props.navigation.getParam('update') && Object.keys(this.state.productInfo).length > 0) {
                         try {
                             ProductService.addOrUpdate(productJson);
