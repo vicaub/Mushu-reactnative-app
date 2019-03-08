@@ -3,13 +3,11 @@ const apiUrl = 'http://54.37.23.103/mushu';
 
 export function getCFPFromBarcode(barcode) {
     const url = apiUrl + '/cfp?barcode=' + barcode;
-    console.log("calling api: " + url);
     return fetch(url)
         .then((response) => {
             return response.json()
         })
         .then((json) => {
-            console.warn(json)
             if (json.errorMessage) {
                 throw json
             } else {
