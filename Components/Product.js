@@ -178,7 +178,7 @@ class ProductScreen extends Component {
                                 <Text
                                     style={styles.productNameText}>{productInfo.name ? productInfo.name : "Nom inconnu"}</Text>
                                 <Text style={styles.defaultText}>Quantité
-                                    : {productInfo.weight + productInfo.weightUnit}</Text>
+                                    : {productInfo.weight} {productInfo.weightUnit}</Text>
                                 <Text style={styles.descriptionText}>Code barre : {productInfo.barcode}</Text>
                             </View>
                         </View>
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
     },
     productNameText: {
         fontWeight: 'bold',
-        fontSize: 25,
+        fontSize: 20,
         flexWrap: 'wrap',
         marginLeft: 5,
         marginRight: 5,
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
     cfpText: {
         marginLeft: 5,
         marginRight: 5,
-        marginTop: 10,
+        marginTop: 0,
         fontWeight: 'bold',
         color: mainColor,
         fontSize: 18,
@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
     densityText: {
         marginLeft: 5,
         marginRight: 5,
-        marginTop: 10,
+        marginTop: 5,
         fontStyle: 'italic',
         fontSize: 12,
         textAlign: 'center',
@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginRight: 5,
         marginTop: 10,
-        marginBottom: 10,
+        marginBottom: 0,
         fontSize: 15,
     },
     cartButton: {
