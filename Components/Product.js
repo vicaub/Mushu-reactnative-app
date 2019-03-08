@@ -318,9 +318,6 @@ const styles = StyleSheet.create({
     borderTop: {
         borderTopColor: '#d8d8d8',
         borderTopWidth: 1,
-    },
-    chartStyle: {
-        marginTop: 15,
-        marginLeft: 30,
+        marginTop: 10
     }
 });

@@ -36,37 +36,6 @@ class ProductStat extends Component {
     }
 
 
-    // _getData(ingredient) {
-    //     let data = {
-    //         'keys': [],
-    //         'values': []
-    //     };
-    //     let totalPercent = ingredient.percent / 100;
-    //     ingredient.children.forEach((child) => {
-    //         totalPercent *= child.percent / 100;
-    //         if (!child.children) {
-    //             if (!data.keys.includes(child.match.category)) {
-    //                 data.keys.push(child.match.category);
-    //                 let cfpDensity = child.match.cfp;
-    //
-    //                 data.values.push(cfpDensity);
-    //             } else {
-    //                 data.values[data.keys.indexOf(child.match.category)] += child.match.cfp;
-    //             }
-    //         } else {
-    //             const newData = this._getData(child);
-    //             newData.keys.forEach((element, index, array) => {
-    //                 if (data.keys.includes(element)) {
-    //                     data.values[data.keys.indexOf(element)] += newData.values[index];
-    //                 } else {
-    //                     data.keys.push(element);
-    //                     data.values.push(newData.values[index]);
-    //                 }
-    //             })
-    //         }
-    //     });
-    //     return data
-    // }
 
     _formatData(cfp, weight) {
         const data = {
@@ -82,19 +51,21 @@ class ProductStat extends Component {
 
     _getCFP(ingredient) {
         const CFPs = {};
-        ingredient.children.forEach((child) => {
-            if (!child.children) {
-                if (!CFPs[child.match.category]) {
-                    CFPs[child.match.category] = 0
+        if (ingredient && ingredient.children) {
+            ingredient.children.forEach((child) => {
+                if (!child.children) {
+                    if (!CFPs[child.match.category]) {
+                        CFPs[child.match.category] = 0
+                    }
+                    CFPs[child.match.category] += child.match.cfp * child.percent / 100;
+                } else {
+                    const childCFPs = this._getCFP(child);
+                    Object.keys(childCFPs).forEach((category) => {
+                        childCFPs[category] *= child.percent / 100;
+                    })
                 }
-                CFPs[child.match.category] += child.match.cfp * child.percent / 100;
-            } else {
-                const childCFPs = this._getCFP(child);
-                Object.keys(childCFPs).forEach((category) => {
-                    childCFPs[category] *= child.percent / 100;
-                })
-            }
-        });
+            });
+        }
         return CFPs
     }
 
@@ -129,12 +100,7 @@ class ProductStat extends Component {
                 </View>
             );
         } else {
-            return (
-                <View style={styles.oupsContainer}>
-                    <OupsScreen
-                        message="Vous n'avez pas encore de panier... Créez-en un pour obtenir votre analyse diététique !"/>
-                </View>
-            );
+            return (<View/>);
         }
     }
 

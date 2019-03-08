@@ -5,6 +5,11 @@ export function getCFPFromBarcode(barcode) {
     const url = apiUrl + '/cfp?barcode=' + barcode;
     return fetch(url)
         .then((response) => {
+            if (response.status) {
+                if (response.status !== 200 && response.status !== 500) {
+                    throw {errorMessage: "Le serveur distant est indisponible, veuillez contacter l'équipe Mushu :)"}
+                }
+            }
             return response.json()
         })
         .then((json) => {
@@ -36,6 +41,11 @@ export function getEquivFromCFP(cfp, unit) {
     const url = apiUrl + '/equivalent?cfp=' + cfp + "&unit=" + unit;
     return fetch(url)
         .then((response) => {
+            if (response.status) {
+                if (response.status !== 200 && response.status !== 500) {
+                    throw {errorMessage: "Le serveur distant est indisponible, veuillez contacter l'équipe Mushu :)"}
+                }
+            }
             return response.json()
         })
         .then((json) => {
