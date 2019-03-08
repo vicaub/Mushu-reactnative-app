@@ -117,8 +117,6 @@ class ProductStat extends Component {
         if (data.keys && data.keys.length) {
             return (
                 <View style={styles.container}>
-                    {/* Statistics */}
-                    {/* Pie Chart */}
                     <Text style={styles.chartTitle}>Répartition de l'empreinte carbone du produit</Text>
                     <Pie
                         pieWidth={200}
@@ -154,7 +152,7 @@ export default ProductStat;
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'whitesmoke',
-        marginTop: 21,
+        marginTop: 10,
     },
     oupsContainer: {
         marginTop: 150,
