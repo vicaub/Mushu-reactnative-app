@@ -55,13 +55,13 @@ class ProductScreen extends Component {
                     }
                 }).catch((error) => {
                         console.warn(error);
-                        this.setState({isLoading: false, errorMessage: error.message})
+                        this.setState({isLoading: false, errorMessage: error.errorMessage})
                     }
                 );
             })
             .catch((error) => {
                     console.warn(error);
-                    this.setState({isLoading: false, errorMessage: error.message})
+                    this.setState({isLoading: false, errorMessage: error.errorMessage})
                 }
             );
     }
