@@ -31,7 +31,7 @@ class Pie extends Component {
         const colors = this.props.colors;
         const keys = this.props.data.keys;
         const values = this.props.data.values;
-        const cfpUnit = this.props.cfpUnit;
+        const weightUnit = this.props.weightUnit;
 
         const data = keys.map((key, index) => {
             return {
@@ -60,7 +60,7 @@ class Pie extends Component {
                                 <TouchableWithoutFeedback key={index}>
                                     <Text
                                         style={[styles.label, {color: Theme.colors[index], fontWeight: fontWeight}]}>
-                                        {keys[index]}: {formatFloat(values[index])} {cfpUnit}
+                                        {keys[index]}: {formatFloat(values[index])} {weightUnit}
                                     </Text>
                                 </TouchableWithoutFeedback>
                             );

@@ -37,14 +37,14 @@ class ProductStat extends Component {
 
 
 
-    _formatData(cfp, weight) {
+    _formatData(cfp, updatedWeight) {
         const data = {
             'keys': [],
             'values': []
         };
         Object.keys(cfp).forEach((category) => {
             data.keys.push(category);
-            data.values.push(cfp[category] * weight);
+            data.values.push(cfp[category] * updatedWeight);
         });
         return data
     }
@@ -61,7 +61,11 @@ class ProductStat extends Component {
                 } else {
                     const childCFPs = this._getCFP(child);
                     Object.keys(childCFPs).forEach((category) => {
-                        childCFPs[category] *= child.percent / 100;
+                        if (!CFPs[category]) {
+                            CFPs[category] = 0
+                        }
+                        CFPs[category] += childCFPs[category] * child.percent / 100;
+                        console.warn(childCFPs[category] * child.percent / 100)
                     })
                 }
             });
@@ -72,8 +76,17 @@ class ProductStat extends Component {
     _fetchData() {
         const ingredients = this.props.ingredients;
         const weight = this.props.weight;
+        const weightUnit = this.props.weightUnit;
+
         const cfp = this._getCFP(ingredients);
-        const data = this._formatData(cfp, weight);
+        console.warn(cfp);
+
+        let updatedWeight = weight;
+        if (weightUnit === "cl") {
+            updatedWeight /= 100
+        }
+
+        const data = this._formatData(cfp, updatedWeight);
         this.setState({data: data})
     }
 
@@ -84,7 +97,11 @@ class ProductStat extends Component {
 
     _displayStats() {
         const data = this.state.data;
-        const cfpUnit = this.props.weightUnit;
+        let weightUnit = this.props.weightUnit;
+        weightUnit === "l"? weightUnit = "kg" : null;
+        weightUnit === "ml"? weightUnit = "g" : null;
+        weightUnit === "cl"? weightUnit = "kg" : null;
+
         if (data.keys && data.keys.length) {
             return (
                 <View style={styles.container}>
@@ -94,7 +111,7 @@ class ProductStat extends Component {
                         pieHeight={200}
                         colors={Theme.colors}
                         data={data}
-                        cfpUnit={cfpUnit}
+                        weightUnit={weightUnit}
                         // selectedSliceLabel={activeKey}
                     />
                 </View>
