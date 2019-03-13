@@ -17,7 +17,6 @@ class BasketItem extends Component {
     }
 
     render() {
-        // TODO: add cfp
         const basket = this.props.basket;
         const dateString = moment(basket.updatedAt).format("DD/MM/YYYY");
         return (
