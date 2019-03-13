@@ -65,7 +65,6 @@ class ProductStat extends Component {
                             CFPs[category] = 0
                         }
                         CFPs[category] += childCFPs[category] * child.percent / 100;
-                        console.warn(childCFPs[category] * child.percent / 100)
                     })
                 }
             });
@@ -79,7 +78,6 @@ class ProductStat extends Component {
         const weightUnit = this.props.weightUnit;
 
         const cfp = this._getCFP(ingredients);
-        console.warn(cfp);
 
         let updatedWeight = weight;
         if (weightUnit === "cl") {
