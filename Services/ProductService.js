@@ -41,10 +41,15 @@ let ProductService = {
 
     // Retrieve a specific product in the database from the barcode (Used from the basket screen)
     fetchProduct: (barcode) => {
-        const product = Array.from(productDB.filtered("barcode = '" + barcode + "'"))[0];
-        const new_product = JSON.parse(JSON.stringify(product));
-        new_product.ingredients = JSON.parse(new_product.ingredients)
-        return product
+        const result = Array.from(productDB.filtered("barcode = '" + barcode + "'"));
+        if (result.length > 0) {
+            const product = result[0];
+            const new_product = JSON.parse(JSON.stringify(product));
+            new_product.ingredients = JSON.parse(JSON.parse(new_product.ingredients));
+            return new_product
+        } else {
+            return undefined
+        }
     }
 
 };
