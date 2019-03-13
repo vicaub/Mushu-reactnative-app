@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
-import { StyleSheet, View, Text, Image } from 'react-native'
+import React, {Component} from 'react'
+import {StyleSheet, View, Text, Image} from 'react-native'
 import PropTypes from "prop-types";
 import {formatFloat} from '../Helper/stringParser'
+import moment from 'moment';
 
 class ProductItem extends Component {
     render() {
@@ -27,12 +28,19 @@ class ProductItem extends Component {
                             Quantité: {product.weight} {product.weightUnit}
                         </Text>
                         <Text style={styles.descriptionText}>
-                            {cartCounter > 0? cartCounter + " articles dans le panier": undefined}
+                            {cartCounter > 0 ? cartCounter + " articles dans le panier" : undefined}
                         </Text>
                         {
                             cartCounter === undefined  // history view
-                                ? <Text style={styles.descriptionText}>Scanné : {product.nbScans} fois</Text>
-                                : null
+                                ? <View>
+                                    <Text style={styles.descriptionText}>
+                                        Scanné : {product.nbScans} fois
+                                    </Text>
+                                    <Text
+                                    style={styles.descriptionText}>
+                                        Dernier scan le {moment(product.updatedAt).format("DD/MM/YYYY")}
+                                    </Text>
+                                </View> : null
                         }
                     </View>
                 </View>
