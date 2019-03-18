@@ -26,7 +26,7 @@ class BarcodeScanner extends Component {
                         permissionDialogTitle={'Permission to use camera'}
                         permissionDialogMessage={'We need your permission to use your camera phone'}
                         onBarCodeRead={(barcode) => {
-                            this.props.navigation.navigate("Product", {barcode: barcode.data, update : true} );
+                            this.props.navigation.navigate("Product", {barcode: barcode.data, fromCamera: true} );
                         }}
                     /> 
                     : <View style={styles.loadingContainer}>

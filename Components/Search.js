@@ -16,7 +16,7 @@ class SearchScreen extends Component {
     }
 
     _searchInfo() {
-        this.props.navigation.navigate("Product", {barcode: this.state.searchedText, update : true});
+        this.props.navigation.navigate("Product", {barcode: this.state.searchedText, fromCamera: true});
     }
 
     render() {

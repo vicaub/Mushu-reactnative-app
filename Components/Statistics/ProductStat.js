@@ -73,7 +73,10 @@ class ProductStat extends Component {
     }
 
     _fetchData() {
-        const ingredients = this.props.ingredients;
+        let ingredients = this.props.ingredients;
+        if (typeof ingredients == "string") {
+            ingredients = JSON.parse(ingredients)
+        }
         const weight = this.props.weight;
         const weightUnit = this.props.weightUnit;
 

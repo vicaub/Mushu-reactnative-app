@@ -32,20 +32,24 @@ class ProductScreen extends Component {
     componentDidMount() {
         const barcode = this.props.navigation.getParam('barcode');
         this.setState({quantityInBasket: BasketService.findProductQuantityInBasket(this.state.basketTimestamp, barcode)});
-
+        // console.warn(barcode);
         const productInDB = ProductService.fetchProduct(barcode);
         const dateLimit = new Date();
+        // dateLimit.setTime(dateLimit.getTime() - 1000 * 30);
         dateLimit.setTime(dateLimit.getTime() - 1000 * 60 * 60 * 24);
-
+        // console.warn(productInDB);
         if (productInDB && new Date(productInDB.updatedAt) > dateLimit) {
             // using product in DB only if updated less than a day ago
-            console.warn("using product in db");
+            // console.warn("using product in db");
+            if (this.props.navigation.getParam('fromCamera')) {
+                ProductService.scan(barcode);
+            }
             this.setState({
                 productInfo: productInDB,
                 isLoading: false
             });
         } else {
-            console.warn("getting new product from api");
+            // console.warn("getting new product from api");
             getCFPFromBarcode(barcode)
                 .then(productJson => {
                     productJson = formatProductJson(productJson);
@@ -60,13 +64,13 @@ class ProductScreen extends Component {
                             productInfo: productJson,
                             isLoading: false
                         });
-                        if (this.props.navigation.getParam('update') && Object.keys(this.state.productInfo).length > 0) {
-                            try {
-                                ProductService.addOrUpdate(productJson);
-                            } catch (e) {
-                                console.warn(e);
-                            }
+                        // if (this.props.navigation.getParam('update') && Object.keys(this.state.productInfo).length > 0) {
+                        try {
+                            ProductService.addOrUpdate(productJson, this.props.navigation.getParam('fromCamera'));
+                        } catch (e) {
+                            console.warn(e);
                         }
+                        // }
                     }).catch((error) => {
                             console.warn(error);
                             this.setState({isLoading: false, errorMessage: error.errorMessage})
@@ -177,8 +181,6 @@ class ProductScreen extends Component {
     }
 
     _displayProductInfo() {
-        // TODO: add recommandations
-
         const {productInfo, isLoading, isConnected} = this.state;
 
         if (!isLoading) {
