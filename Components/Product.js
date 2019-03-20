@@ -36,7 +36,7 @@ class ProductScreen extends Component {
         const productInDB = ProductService.fetchProduct(barcode);
         const dateLimit = new Date();
         // dateLimit.setTime(dateLimit.getTime() - 1000 * 30);
-        dateLimit.setTime(dateLimit.getTime() - 1000 * 60 * 60 * 24);
+        dateLimit.setTime(dateLimit.getTime() - 1000 * 60 * 60 * 1);
         // console.warn(productInDB);
         if (productInDB && new Date(productInDB.updatedAt) > dateLimit) {
             // using product in DB only if updated less than a day ago
