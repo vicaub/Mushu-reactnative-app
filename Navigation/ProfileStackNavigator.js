@@ -1,11 +1,9 @@
-
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 import { View } from 'react-native';
 import HamburgerIcon from './HamburgerIcon';
 import Profile from '../Components/Profile';
 import UpdateProfile from '../Components/UpdateProfile';
-import Allergies from '../Components/Allergies';
 import { headerStyle, mainColor } from './HeaderStyle';
 
 const ProfileStackNavigator = createStackNavigator({

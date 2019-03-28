@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import { View, TouchableOpacity, Image } from 'react-native';
 

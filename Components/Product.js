@@ -177,7 +177,7 @@ class ProductScreen extends Component {
         }
         const dayAverage = kgCFP / 4 * 100
 
-        return `${formatFloat(dayAverage)}% de l'empreinte carbone journalière consommée par un français moyen`;
+        return `Correspond à ${formatFloat(dayAverage)}% de l'empreinte carbone journalière générée par la consommation d'un français moyen`;
     }
 
     _displayProductInfo() {
@@ -323,8 +323,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     equivalentText: {
-        marginLeft: 5,
-        marginRight: 5,
+        marginLeft: 7,
+        marginRight: 7,
         marginTop: 10,
         marginBottom: 0,
         fontSize: 15,

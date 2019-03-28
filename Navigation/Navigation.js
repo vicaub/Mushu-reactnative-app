@@ -3,8 +3,6 @@ import HomeStackNavigator from "./HomeStackNavigator";
 import HistoryStackNavigator from "./HistoryStackNavigator";
 import SearchStackNavigator from "./SearchStackNavigator";
 import ProfileStackNavigator from "./ProfileStackNavigator";
-
-import StatsStackNavigator from "./StatsStackNavigator";
 import MyBasketsStackNavigator from "./MyBasketsStackNavigator";
 import AboutStackNavigator from "./AboutStackNavigator";
 

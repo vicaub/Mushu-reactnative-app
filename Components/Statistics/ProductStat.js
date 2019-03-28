@@ -4,11 +4,9 @@ import {
     View,
     ScrollView,
     Text,
-    Image,
 } from 'react-native';
 import Pie from './Charts/Pie';
 import Theme from './Theme';
-import OupsScreen from '../Common/Oups';
 
 
 class ProductStat extends Component {

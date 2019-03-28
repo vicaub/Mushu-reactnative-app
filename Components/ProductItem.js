@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {StyleSheet, View, Text, Image} from 'react-native'
-import PropTypes from "prop-types";
 import {formatFloat} from '../Helper/stringParser'
 import moment from 'moment';
 

@@ -1,7 +1,6 @@
 import DBConnector from '../Database/DBConnector';
 // Service to fetch, add, update the products in the Database
 
-
 let productDB = DBConnector.objects('Product');
 
 let ProductService = {
