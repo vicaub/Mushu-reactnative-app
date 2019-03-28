@@ -14,8 +14,7 @@ class AboutScreen extends Component {
             <View style={styles.container}>
                 <Text style={styles.titleText}>Qui sommes-nous ?</Text>
                 <Text style={styles.defaultText}>
-                    Nous sommes une équipe de trois étudiants de CentraleSupélec. Nous avons décidé
-                    de réaliser ce projet
+                    Nous sommes une équipe de trois étudiants de CentraleSupélec.
                 </Text>
 
                 <Text style={styles.titleText}>
@@ -23,18 +22,20 @@ class AboutScreen extends Component {
                 </Text>
                 <Text style={styles.defaultText}>
                     Cette application calcule l'empreinte carbone à partir des ingrédients des produits que vous scannez
-                    avec la caméra de votre téléphone
+                    à l'aide de la caméra de votre téléphone.
+                    {"\n"}
+                    Dans ce calcul nous ne prenons pas en compte l'empreinte carbone dégagée par l'emballage et le transport des produits.
                 </Text>
 
                 <Text style={styles.titleText}>
                     Une question ?
                 </Text>
                 <Text style={styles.defaultText}>
-                    Pour tout commentaire ou suggestion, veuillez nous contacter : feedback.mushu@gmail.com
+                    Pour tout commentaire ou suggestion, vous pouvez nous contactez à l'adresse feedback.mushu@gmail.com.
                 </Text>
 
-                <Text style={styles.titleText}/>
                 <Text style={styles.copyrightText}>
+                    {"\n"}
                     © Copyright 2019 Team Mushu
                 </Text>
             </View>
