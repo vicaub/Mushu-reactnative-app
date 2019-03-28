@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
     Text,
     View,
@@ -17,14 +16,14 @@ class Pie extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // selectedSliceLabel: props.selectedSliceLabel,
+            selectedSliceLabel: props.selectedSliceLabel,
         }
     }
 
-    // _onPieItemSelected(key, index) {
-    //     this.setState({ selectedSliceLabel: key, });
-    //     this.props.onItemSelected(index, key);
-    // }
+    _onPieItemSelected(key, index) {
+        this.setState({ selectedSliceLabel: key, });
+        this.props.onItemSelected(index, key);
+    }
 
     render() {
         const { selectedSliceLabel } = this.state;
@@ -39,7 +38,7 @@ class Pie extends Component {
                 value: values[index],
                 svg: { fill: colors[index] },
                 arc: { outerRadius: selectedSliceLabel === key ? '100%' : '90%', padAngle: 0.03 },
-                // onPress: () => this._onPieItemSelected(key, index)
+                onPress: () => this._onPieItemSelected(key, index)
             }
         });
 
@@ -57,7 +56,7 @@ class Pie extends Component {
                         {
                             let fontWeight = selectedSliceLabel === item ? 'bold' : 'normal';
                             return (
-                                <TouchableWithoutFeedback key={index}>
+                                <TouchableWithoutFeedback key={index} onPress={() => this._onPieItemSelected(item, index)}>
                                     <Text
                                         style={[styles.label, {color: Theme.colors[index], fontWeight: fontWeight}]}>
                                         {keys[index]}: {formatFloat(values[index])} {weightUnit}
@@ -72,23 +71,14 @@ class Pie extends Component {
     }
 }
 
-Pie.propTypes = {
-    data: PropTypes.shape({
-        keys: PropTypes.arrayOf(PropTypes.string),
-        values: PropTypes.arrayOf(PropTypes.number),
-    }).isRequired,
-    colors: PropTypes.arrayOf(PropTypes.string).isRequired,
-    pieWidth: PropTypes.number.isRequired,
-    pieHeight: PropTypes.number.isRequired,
-    // onItemSelected: PropTypes.func.isRequired,
-    // selectedSliceLabel: PropTypes.string.isRequired,
-};
-
 export default Pie;
 
 const styles = StyleSheet.create({
     container: {
-        margin: 15,
+        marginLeft: 15,
+        marginRight: 15,
+        marginBottom: 10,
+        // margin: 15
     },
     caption: {
         marginTop: 10,
