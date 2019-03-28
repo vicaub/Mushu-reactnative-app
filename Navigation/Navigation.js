@@ -6,6 +6,7 @@ import ProfileStackNavigator from "./ProfileStackNavigator";
 
 import StatsStackNavigator from "./StatsStackNavigator";
 import MyBasketsStackNavigator from "./MyBasketsStackNavigator";
+import AboutStackNavigator from "./AboutStackNavigator";
 
 const DrawerNavigator = createDrawerNavigator(
     {
@@ -34,19 +35,23 @@ const DrawerNavigator = createDrawerNavigator(
             }
         },
         // Stats: {
-        //     // TODO: change to ecological analysis
         //     screen: StatsStackNavigator,
         //     navigationOptions: {
         //         title: 'Analyse diététique',
         //     }
         // },
         Profile: {
-            // TODO: see what we keep/change?
             screen: ProfileStackNavigator,
             navigationOptions: {
                 title: 'Mon profil',
             }
         },
+        About: {
+            screen: AboutStackNavigator,
+            navigationOptions: {
+                title: 'À propos',
+            }
+        }
     }, {
         contentOptions: {
             activeTintColor: '#00C378'
