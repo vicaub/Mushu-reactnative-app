@@ -4,10 +4,6 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
-  <key>NSMicrophoneUsageDescription</key>
-  <string>
-    Nous avons besoin d'avoir accès au microphone car nous l'application utilise la caméra pour scanner les produits
-  </string>
   <key>NSCameraUsageDescription</key>
   <string>Nous avons besoin d'accéder à votre caméra afin de vous permettre de scanner des produits.</string>
 	<key>CFBundleDisplayName</key>

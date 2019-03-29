@@ -46,6 +46,11 @@ class ProductStat extends Component {
         return data
     }
 
+    _formatIngredient(ingredient) {
+        return ingredient.replace(/[0-9]+[ .,]?[0-9]*?[ .]?[%](.*)?/gmi, '').replace(/,/gmi, '')
+            .split("\n")[0].trim()
+    }
+
     _getCFP(ingredient) {
         const CFPs = {};
         if (ingredient && ingredient.children) {
@@ -58,7 +63,7 @@ class ProductStat extends Component {
                         }
                     }
                     CFPs[child.match.category].cfp += child.match.cfp * child.percent / 100;
-                    CFPs[child.match.category].ingredients.add(child.name)
+                    CFPs[child.match.category].ingredients.add(this._formatIngredient(child.name))
                 } else {
                     const childCFPs = this._getCFP(child);
                     Object.keys(childCFPs).forEach((category) => {
@@ -70,7 +75,7 @@ class ProductStat extends Component {
                         }
                         CFPs[category].cfp += childCFPs[category].cfp * child.percent / 100;
                         childCFPs[category].ingredients.forEach(ingredient => {
-                            CFPs[category].ingredients.add(ingredient)
+                            CFPs[category].ingredients.add(this._formatIngredient(ingredient))
                         })
                     })
                 }
