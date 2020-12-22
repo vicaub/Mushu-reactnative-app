@@ -1,4 +1,4 @@
-const apiUrl = 'http://54.37.23.103/mushu';
+const apiUrl = 'http://3.139.60.113/mushu';
 
 
 export function getCFPFromBarcode(barcode) {
