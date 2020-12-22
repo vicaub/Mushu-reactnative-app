@@ -28,6 +28,7 @@ class BarcodeScanner extends Component {
                         onBarCodeRead={(barcode) => {
                             this.props.navigation.navigate("Product", {barcode: barcode.data, fromCamera: true} );
                         }}
+                        captureAudio={false}
                     /> 
                     : <View style={styles.loadingContainer}>
                         <ActivityIndicator size='large'/>
